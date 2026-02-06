@@ -36,9 +36,9 @@ jobs:
         run: npx tsx cv/generate-cv.ts
 
       - name: Install tectonic
-        run: |
-          curl -LSs https://drop-sh.fullyjustified.net | sh
-          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+        uses: wtfjoke/setup-tectonic@v3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Compile LaTeX CV
         run: tectonic cv/template.tex --outdir cv
