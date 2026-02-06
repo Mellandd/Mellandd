@@ -62,7 +62,7 @@ const Index = () => {
                 </Link>
               </Button>
               <Button asChild variant="outline" size="lg">
-                <a href={profile.cv} download>
+                <a href={`${import.meta.env.BASE_URL}cv.pdf`} download>
                   <Download className="mr-2 h-4 w-4" />
                   Download CV
                 </a>
