@@ -21,17 +21,28 @@ function escape(s: string): string {
 // ── Header ──────────────────────────────────────────────────────────────────
 function generateHeader(): string {
   const lines: string[] = [];
+
+  // Name
   lines.push(`\\begin{center}`);
-  lines.push(`{\\LARGE\\bfseries ${escape(profile.name)}}\\\\[4pt]`);
-  lines.push(`${escape(profile.title)} — ${escape(profile.affiliation.university)}\\\\[2pt]`);
-  lines.push(
-    `\\href{mailto:${profile.social.email}}{${escape(profile.social.email)}}` +
-      ` \\quad ` +
-      `\\href{${profile.social.github}}{GitHub}` +
-      ` \\quad ` +
-      `\\href{${profile.social.scholar}}{Google Scholar}`
+  lines.push(`{\\Huge\\bfseries\\color{accent} ${escape(profile.name)}}\\\\[6pt]`);
+  lines.push(`{\\large ${escape(profile.title)} --- ${escape(profile.affiliation.university)}}\\\\[8pt]`);
+
+  // Contact row with icons
+  const contacts: string[] = [];
+  contacts.push(
+    `\\faIcon{envelope}\\;\\href{mailto:${profile.social.email}}{${escape(profile.social.email)}}`
   );
+  contacts.push(
+    `\\faIcon{github}\\;\\href{${profile.social.github}}{${escape("Mellandd")}}`
+  );
+  contacts.push(
+    `\\faIcon{graduation-cap}\\;\\href{${profile.social.scholar}}{Google Scholar}`
+  );
+
+  lines.push(`{\\small ${contacts.join("\\quad\\textcolor{rule}{|}\\quad ")}}`);
   lines.push(`\\end{center}`);
+  lines.push(`\\vspace{0.2em}`);
+
   return lines.join("\n");
 }
 
@@ -39,14 +50,19 @@ function generateHeader(): string {
 function generateEducation(): string {
   const lines: string[] = [];
   lines.push(`\\section{Education}`);
+
   for (const ed of profile.education) {
-    const honors = ed.honors ? ` — \\textit{${escape(ed.honors)}}` : "";
+    const honors = ed.honors ? ` --- \\textit{${escape(ed.honors)}}` : "";
+    const focus = "focus" in ed && (ed as any).focus
+      ? escape((ed as any).focus)
+      : "";
+    const subtitle = [escape(ed.institution), focus].filter(Boolean).join(" --- ");
+
     lines.push(
-      `\\textbf{${escape(ed.degree)}}${honors}\\hfill ${escape(ed.years)}\\\\`
+      `\\cventry{${escape(ed.degree)}${honors}}{${escape(ed.years)}}{${subtitle}}{}`
     );
-    const focus = "focus" in ed && (ed as any).focus ? ` — ${escape((ed as any).focus)}` : "";
-    lines.push(`${escape(ed.institution)}${focus}\\\\[4pt]`);
   }
+
   return lines.join("\n");
 }
 
@@ -54,20 +70,26 @@ function generateEducation(): string {
 function generatePapers(): string {
   const lines: string[] = [];
   lines.push(`\\section{Publications}`);
-  lines.push(`\\begin{itemize}`);
+
   for (const p of papers) {
     const authors = p.authors.map(escape).join(", ");
     const title = escape(p.title);
     const venue = escape(p.venue);
+
     const links: string[] = [];
-    if (p.links.arxiv) links.push(`\\href{${p.links.arxiv}}{link}`);
-    if (p.links.code) links.push(`\\href{${p.links.code}}{code}`);
-    const linkStr = links.length > 0 ? ` [${links.join(", ")}]` : "";
-    lines.push(
-      `  \\item ${authors}. \\textbf{${title}}. \\textit{${venue}}, ${p.year}.${linkStr}`
-    );
+    if (p.links.arxiv && p.links.arxiv !== "#")
+      links.push(`\\href{${p.links.arxiv}}{\\faIcon{external-link-alt}\\,link}`);
+    if (p.links.code)
+      links.push(`\\href{${p.links.code}}{\\faIcon{code}\\,code}`);
+
+    const linkStr =
+      links.length > 0
+        ? `\\ {\\footnotesize\\color{accent}${links.join("\\;\\textcolor{rule}{|}\\;")}}`
+        : "";
+
+    lines.push(`\\cvpub{${authors}}{${title}}{${venue}}{${p.year}}{${linkStr}}`);
   }
-  lines.push(`\\end{itemize}`);
+
   return lines.join("\n");
 }
 
@@ -75,17 +97,18 @@ function generatePapers(): string {
 function generateProjects(): string {
   const lines: string[] = [];
   lines.push(`\\section{Projects}`);
-  lines.push(`\\begin{itemize}`);
+
   for (const proj of projects) {
     const tech = proj.technologies.map(escape).join(", ");
     const ghLink = proj.links.github
-      ? ` \\href{${proj.links.github}}{GitHub}`
+      ? `\\ \\href{${proj.links.github}}{\\faIcon{github}}`
       : "";
+
     lines.push(
-      `  \\item \\textbf{${escape(proj.title)}} (${tech})${ghLink} — ${escape(proj.description)}`
+      `\\cvitem{${escape(proj.title)}${ghLink}}{${tech}}{${escape(proj.description)}}`
     );
   }
-  lines.push(`\\end{itemize}`);
+
   return lines.join("\n");
 }
 
@@ -93,13 +116,13 @@ function generateProjects(): string {
 function generateTeaching(): string {
   const lines: string[] = [];
   lines.push(`\\section{Teaching}`);
-  lines.push(`\\begin{itemize}`);
+
   for (const c of courses) {
     lines.push(
-      `  \\item \\textbf{${escape(c.title)}} (${escape(c.code)}) — ${escape(c.role)}, ${escape(c.semester)} ${c.year}`
+      `\\cvitem{${escape(c.title)} {\\normalfont(${escape(c.code)})}}{${escape(c.semester)} ${c.year}}{${escape(c.role)} --- ${escape(c.description)}}`
     );
   }
-  lines.push(`\\end{itemize}`);
+
   return lines.join("\n");
 }
 

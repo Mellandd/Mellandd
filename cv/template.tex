@@ -1,31 +1,68 @@
-\documentclass[11pt,a4paper]{article}
+\documentclass[10pt,a4paper]{article}
 
+% ── Encoding & fonts ────────────────────────────────────────────────
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
-\usepackage{lmodern}
-\usepackage[margin=2cm]{geometry}
+\usepackage{sourcesanspro}
+\renewcommand{\familydefault}{\sfdefault}
+
+% ── Layout ──────────────────────────────────────────────────────────
+\usepackage[top=1.6cm, bottom=1.6cm, left=2cm, right=2cm]{geometry}
+\usepackage{parskip}
+\usepackage{multicol}
 \usepackage{enumitem}
-\usepackage{titlesec}
-\usepackage{hyperref}
+\usepackage{tabularx}
+
+% ── Colors ──────────────────────────────────────────────────────────
 \usepackage{xcolor}
+\definecolor{accent}{HTML}{1a6fc4}
+\definecolor{light}{HTML}{64748b}
+\definecolor{rule}{HTML}{cbd5e1}
 
-\definecolor{accent}{HTML}{00bfff}
-
+% ── Hyperlinks ──────────────────────────────────────────────────────
+\usepackage{hyperref}
 \hypersetup{
   colorlinks=true,
   linkcolor=accent,
   urlcolor=accent,
 }
 
-% Section formatting
-\titleformat{\section}{\large\bfseries\color{accent}}{}{0em}{}[\titlerule]
-\titlespacing*{\section}{0pt}{1.2em}{0.6em}
+% ── Icons ───────────────────────────────────────────────────────────
+\usepackage{fontawesome5}
 
-% Remove page numbers
+% ── Section headings ───────────────────────────────────────────────
+\usepackage{titlesec}
+\titleformat{\section}
+  {\large\bfseries\color{accent}\uppercase}
+  {}
+  {0em}
+  {}
+  [\vspace{-0.6em}{\color{rule}\hrule height 0.5pt}\vspace{0.2em}]
+\titlespacing*{\section}{0pt}{1em}{0.4em}
+
+% ── Custom commands ────────────────────────────────────────────────
+% Entry with title, right-aligned date, subtitle line
+\newcommand{\cventry}[4]{%
+  \noindent\textbf{#1}\hfill{\small\color{light}#2}\\
+  {\small #3}%
+  \ifx&#4&\else\\{\small\color{light}#4}\fi
+  \par\vspace{0.4em}%
+}
+
+% Publication entry
+\newcommand{\cvpub}[5]{%
+  \noindent{\small #1.\ \textbf{#2}.\ \textit{#3},\ #4.#5}\par\vspace{0.4em}%
+}
+
+% Compact item for projects/teaching
+\newcommand{\cvitem}[3]{%
+  \noindent\textbf{#1}\hfill{\small\color{light}#2}\\
+  {\small #3}\par\vspace{0.4em}%
+}
+
+% ── No page numbers ────────────────────────────────────────────────
 \pagestyle{empty}
-
-% Tight lists
-\setlist[itemize]{nosep, left=0pt}
+\setlist[itemize]{nosep, left=0pt, label={\color{accent}\textbullet}}
 
 \begin{document}
 

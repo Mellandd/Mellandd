@@ -30,12 +30,11 @@ const About = () => {
             {/* Bio */}
             <SectionWrapper>
               <div className="flex items-start gap-6 mb-6">
-                {/* Profile Image Placeholder */}
-                <div className="w-32 h-32 rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/30 flex items-center justify-center flex-shrink-0">
-                  <span className="text-4xl font-bold text-primary">
-                    {profile.name.split(" ").map((n) => n[0]).join("")}
-                  </span>
-                </div>
+                <img
+                  src={`${import.meta.env.BASE_URL}profile.jpg`}
+                  alt={profile.name}
+                  className="w-32 h-32 rounded-lg object-cover border border-primary/30 flex-shrink-0"
+                />
                 <div>
                   <h2 className="text-2xl font-bold mb-1">{profile.name}</h2>
                   <p className="text-primary mb-2">{profile.title}</p>
