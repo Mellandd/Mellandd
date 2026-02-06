@@ -1,0 +1,43 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=2cm]{geometry}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage{xcolor}
+
+\definecolor{accent}{HTML}{00bfff}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=accent,
+  urlcolor=accent,
+}
+
+% Section formatting
+\titleformat{\section}{\large\bfseries\color{accent}}{}{0em}{}[\titlerule]
+\titlespacing*{\section}{0pt}{1.2em}{0.6em}
+
+% Remove page numbers
+\pagestyle{empty}
+
+% Tight lists
+\setlist[itemize]{nosep, left=0pt}
+
+\begin{document}
+
+%% Header — generated
+\input{sections/header.tex}
+
+\input{sections/education.tex}
+
+\input{sections/papers.tex}
+
+\input{sections/projects.tex}
+
+\input{sections/teaching.tex}
+
+\end{document}

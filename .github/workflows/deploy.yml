@@ -1,0 +1,58 @@
+name: Build CV & Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # ── Generate CV ────────────────────────────────────────────
+      - name: Generate LaTeX sections from data
+        run: npx tsx cv/generate-cv.ts
+
+      - name: Compile LaTeX CV
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: template.tex
+          working_directory: cv
+
+      - name: Copy CV PDF to public
+        run: cp cv/template.pdf public/cv.pdf
+
+      # ── Build site ─────────────────────────────────────────────
+      - name: Build Vite site
+        run: npm run build
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,7 @@
+node_modules
+dist
+
+# CV build artifacts
+cv/sections/
+cv/*.pdf
+public/cv.pdf
