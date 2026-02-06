@@ -116,7 +116,7 @@ const About = () => {
                   publications, and experience.
                 </p>
                 <Button asChild className="w-full glow">
-                  <a href={profile.cv} download>
+                  <a href={`${import.meta.env.BASE_URL}cv.pdf`} download>
                     <Download className="mr-2 h-4 w-4" />
                     Download CV
                   </a>
