@@ -35,11 +35,13 @@ jobs:
       - name: Generate LaTeX sections from data
         run: npx tsx cv/generate-cv.ts
 
+      - name: Install tectonic
+        run: |
+          curl -LSs https://drop-sh.fullyjustified.net | sh
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
       - name: Compile LaTeX CV
-        uses: xu-cheng/latex-action@v3
-        with:
-          root_file: template.tex
-          working_directory: cv
+        run: tectonic cv/template.tex --outdir cv
 
       - name: Copy CV PDF to public
         run: cp cv/template.pdf public/cv.pdf
