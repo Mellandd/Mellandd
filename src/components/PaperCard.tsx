@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ChevronDown, ExternalLink, Github, FileText } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Paper } from "@/data/papers";
+import { Paper, PaperType } from "@/data/papers";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
@@ -9,6 +9,30 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 interface PaperCardProps {
   paper: Paper;
 }
+
+const typeColors: Record<PaperType, string> = {
+  journal: "bg-blue-500/20 text-blue-400 border-blue-500/30",
+  conference: "bg-green-500/20 text-green-400 border-green-500/30",
+  preprint: "bg-orange-500/20 text-orange-400 border-orange-500/30",
+  poster: "bg-purple-500/20 text-purple-400 border-purple-500/30",
+  talk: "bg-pink-500/20 text-pink-400 border-pink-500/30",
+};
+
+const typeLabels: Record<PaperType, string> = {
+  journal: "Journal",
+  conference: "Conference",
+  preprint: "Preprint",
+  poster: "Poster",
+  talk: "Talk",
+};
+
+const linkLabels: Record<PaperType, string> = {
+  journal: "Paper",
+  conference: "Proceedings",
+  preprint: "Preprint",
+  poster: "Abstract",
+  talk: "Slides",
+};
 
 export const PaperCard = ({ paper }: PaperCardProps) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,9 +57,12 @@ export const PaperCard = ({ paper }: PaperCardProps) => {
         {/* Authors & Venue */}
         <div className="text-sm text-muted-foreground">
           <p>{paper.authors.join(", ")}</p>
-          <p className="mt-1">
+          <p className="mt-1 flex flex-wrap items-center gap-2">
+            <Badge variant="outline" className={cn("text-xs", typeColors[paper.type])}>
+              {typeLabels[paper.type]}
+            </Badge>
             <span className="text-primary font-medium">{paper.venue}</span>
-            <span className="mx-2">•</span>
+            <span>•</span>
             <span>{paper.year}</span>
           </p>
         </div>
@@ -92,7 +119,7 @@ export const PaperCard = ({ paper }: PaperCardProps) => {
               className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md bg-secondary hover:bg-secondary/80 transition-colors"
             >
               <ExternalLink className="h-3.5 w-3.5" />
-              arXiv
+              {linkLabels[paper.type]}
             </a>
           )}
           {paper.links.code && (

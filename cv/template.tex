@@ -40,6 +40,13 @@
   [{\color{rule}\titlerule[0.5pt]}]
 \titlespacing*{\section}{0pt}{1em}{0.4em}
 
+\titleformat{\subsection}
+  {\normalsize\bfseries\color{accent}}
+  {}
+  {0em}
+  {}
+\titlespacing*{\subsection}{0pt}{0.6em}{0.3em}
+
 % ── Custom commands ────────────────────────────────────────────────
 % Entry with title, right-aligned date, subtitle line
 \newcommand{\cventry}[4]{%
@@ -76,5 +83,7 @@
 \input{sections/projects.tex}
 
 \input{sections/teaching.tex}
+
+\input{sections/activities.tex}
 
 \end{document}

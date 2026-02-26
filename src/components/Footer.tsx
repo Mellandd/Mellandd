@@ -8,7 +8,7 @@ export const Footer = () => {
     { icon: BookOpen, href: profile.social.scholar, label: "Google Scholar" },
     { icon: Twitter, href: profile.social.twitter, label: "Twitter" },
     { icon: Linkedin, href: profile.social.linkedin, label: "LinkedIn" },
-  ];
+  ].filter((link) => !!link.href);
 
   return (
     <footer className="border-t border-border bg-background/50 backdrop-blur-sm">

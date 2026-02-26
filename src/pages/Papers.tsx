@@ -2,23 +2,39 @@ import { useState, useMemo } from "react";
 import { Filter } from "lucide-react";
 import { SectionWrapper } from "@/components/SectionWrapper";
 import { PaperCard } from "@/components/PaperCard";
-import { papers, allTags } from "@/data/papers";
+import { papers, allTags, allTypes, PaperType } from "@/data/papers";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
+const typeLabels: Record<PaperType, string> = {
+  journal: "Journal",
+  conference: "Conference",
+  preprint: "Preprint",
+  poster: "Poster",
+  talk: "Talk",
+};
+
 const Papers = () => {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [selectedTypes, setSelectedTypes] = useState<PaperType[]>([]);
 
   const filteredPapers = useMemo(() => {
-    if (selectedTags.length === 0) return papers;
-    return papers.filter((paper) =>
-      selectedTags.some((tag) => paper.tags.includes(tag))
-    );
-  }, [selectedTags]);
+    return papers.filter((paper) => {
+      const matchesTags = selectedTags.length === 0 || selectedTags.some((tag) => paper.tags.includes(tag));
+      const matchesTypes = selectedTypes.length === 0 || selectedTypes.includes(paper.type);
+      return matchesTags && matchesTypes;
+    });
+  }, [selectedTags, selectedTypes]);
 
   const toggleTag = (tag: string) => {
     setSelectedTags((prev) =>
       prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
+    );
+  };
+
+  const toggleType = (type: PaperType) => {
+    setSelectedTypes((prev) =>
+      prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type]
     );
   };
 
@@ -60,9 +76,30 @@ const Papers = () => {
                 {tag}
               </Badge>
             ))}
-            {selectedTags.length > 0 && (
+          </div>
+          <div className="flex items-center gap-3 mb-4 mt-4">
+            <Filter className="h-4 w-4 text-muted-foreground" />
+            <span className="text-sm text-muted-foreground">Filter by type:</span>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {allTypes.map((type) => (
+              <Badge
+                key={type}
+                variant={selectedTypes.includes(type) ? "default" : "outline"}
+                className={cn(
+                  "cursor-pointer transition-all duration-200",
+                  selectedTypes.includes(type)
+                    ? "bg-primary text-primary-foreground"
+                    : "hover:bg-primary/10 hover:border-primary"
+                )}
+                onClick={() => toggleType(type)}
+              >
+                {typeLabels[type]}
+              </Badge>
+            ))}
+            {(selectedTags.length > 0 || selectedTypes.length > 0) && (
               <button
-                onClick={() => setSelectedTags([])}
+                onClick={() => { setSelectedTags([]); setSelectedTypes([]); }}
                 className="text-xs text-muted-foreground hover:text-foreground transition-colors underline"
               >
                 Clear filters
@@ -74,7 +111,7 @@ const Papers = () => {
         {/* Results count */}
         <div className="mb-6">
           <p className="text-sm text-muted-foreground">
-            Showing {filteredPapers.length} of {papers.length} papers
+            Showing {filteredPapers.length} of {papers.length} publications
           </p>
         </div>
 

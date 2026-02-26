@@ -69,6 +69,11 @@ export default {
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
         mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
+        pixel: ['Geist Pixel Square', 'monospace'],
+        'pixel-grid': ['Geist Pixel Grid', 'monospace'],
+        'pixel-circle': ['Geist Pixel Circle', 'monospace'],
+        'pixel-triangle': ['Geist Pixel Triangle', 'monospace'],
+        'pixel-line': ['Geist Pixel Line', 'monospace'],
       },
       borderRadius: {
         lg: "var(--radius)",

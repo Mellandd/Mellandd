@@ -5,6 +5,11 @@ import { profile } from "../src/data/profile.ts";
 import { papers } from "../src/data/papers.ts";
 import { projects } from "../src/data/projects.ts";
 import { courses } from "../src/data/teaching.ts";
+import {
+  reviewingActivities,
+  conferenceParticipations,
+  otherActivities,
+} from "../src/data/activities.ts";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUT = join(__dirname, "sections");
@@ -98,16 +103,77 @@ function generateProjects(): string {
   const lines: string[] = [];
   lines.push(`\\section{Projects}`);
 
-  for (const proj of projects) {
-    const tech = proj.technologies.map(escape).join(", ");
-    const ghLink = proj.links.github
-      ? `\\ \\href{${proj.links.github}}{\\faIcon{github}}`
-      : "";
+  const researchProjects = projects.filter((p) => p.category === "research");
+  const softwareProjects = projects.filter((p) => p.category === "software");
 
+  if (researchProjects.length > 0) {
+    lines.push(`\\subsection{Research Projects}`);
+    for (const proj of researchProjects) {
+      const tech = proj.technologies.map(escape).join(", ");
+      const ghLink = proj.links.github
+        ? `\\ \\href{${proj.links.github}}{\\faIcon{github}}`
+        : "";
+      const meta: string[] = [];
+      if (proj.role) meta.push(escape(proj.role));
+      if (proj.duration) meta.push(escape(proj.duration));
+      if (proj.funding) meta.push(`Funded by ${escape(proj.funding)}`);
+      const metaStr = meta.length > 0 ? ` {\\footnotesize\\color{light}(${meta.join("; ")})}` : "";
+
+      lines.push(
+        `\\cvitem{${escape(proj.title)}${ghLink}${metaStr}}{${tech}}{${escape(proj.description)}}`
+      );
+    }
+  }
+
+  if (softwareProjects.length > 0) {
+    lines.push(`\\subsection{Software \\& Tools}`);
+    for (const proj of softwareProjects) {
+      const tech = proj.technologies.map(escape).join(", ");
+      const ghLink = proj.links.github
+        ? `\\ \\href{${proj.links.github}}{\\faIcon{github}}`
+        : "";
+
+      lines.push(
+        `\\cvitem{${escape(proj.title)}${ghLink}}{${tech}}{${escape(proj.description)}}`
+      );
+    }
+  }
+
+  return lines.join("\n");
+}
+
+// ── Activities ──────────────────────────────────────────────────────────────
+function generateActivities(): string {
+  const lines: string[] = [];
+  lines.push(`\\section{Academic Activities}`);
+
+  // Reviewing
+  lines.push(`\\subsection{Reviewing}`);
+  lines.push(`\\begin{itemize}`);
+  for (const r of reviewingActivities) {
     lines.push(
-      `\\cvitem{${escape(proj.title)}${ghLink}}{${tech}}{${escape(proj.description)}}`
+      `\\item ${escape(r.role)}, \\textit{${escape(r.venue)}} (${r.years.join(", ")})`
     );
   }
+  lines.push(`\\end{itemize}`);
+
+  // Conference Participation
+  lines.push(`\\subsection{Conference Participation}`);
+  for (const c of conferenceParticipations) {
+    lines.push(
+      `\\cvitem{${escape(c.name)}}{${c.year}}{${escape(c.role)} --- ${escape(c.location)}}`
+    );
+  }
+
+  // Memberships & Service
+  lines.push(`\\subsection{Memberships \\& Service}`);
+  lines.push(`\\begin{itemize}`);
+  for (const a of otherActivities) {
+    lines.push(
+      `\\item ${escape(a.title)}, ${escape(a.organization)} (${escape(a.years)})`
+    );
+  }
+  lines.push(`\\end{itemize}`);
 
   return lines.join("\n");
 }
@@ -133,6 +199,7 @@ const sections: Record<string, () => string> = {
   papers: generatePapers,
   projects: generateProjects,
   teaching: generateTeaching,
+  activities: generateActivities,
 };
 
 for (const [name, fn] of Object.entries(sections)) {

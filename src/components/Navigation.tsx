@@ -7,9 +7,10 @@ import { profile } from "@/data/profile";
 
 const navItems = [
   { label: "Home", path: "/" },
-  { label: "Papers", path: "/papers" },
+  { label: "Publications", path: "/papers" },
   { label: "Projects", path: "/projects" },
   { label: "Teaching", path: "/teaching" },
+  { label: "Activities", path: "/activities" },
   { label: "Blog", path: "/blog" },
   { label: "About", path: "/about" },
 ];
@@ -24,7 +25,7 @@ export const Navigation = () => {
         {/* Logo */}
         <Link 
           to="/" 
-          className="text-lg font-semibold tracking-tight hover:text-primary transition-colors"
+          className="text-lg font-semibold tracking-tight hover:text-primary transition-colors font-pixel"
         >
           <span className="text-primary">&lt;</span>
           {profile.initials}

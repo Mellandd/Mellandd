@@ -6,6 +6,7 @@ import { SectionWrapper } from "@/components/SectionWrapper";
 import { PaperCard } from "@/components/PaperCard";
 import { ProjectCard } from "@/components/ProjectCard";
 import { BlogCard } from "@/components/BlogCard";
+import { TrajectoryGraph } from "@/components/TrajectoryGraph";
 import { profile } from "@/data/profile";
 import { papers } from "@/data/papers";
 import { projects } from "@/data/projects";
@@ -28,6 +29,15 @@ const Index = () => {
       <section className="relative min-h-screen flex items-center justify-center px-4">
         <div className="container mx-auto max-w-4xl text-center">
           <div className="stagger-children">
+            {/* Profile Photo */}
+            <div className="flex justify-center mb-6">
+              <img
+                src={`${import.meta.env.BASE_URL}profile.jpg`}
+                alt={profile.name}
+                className="w-36 h-36 rounded-full object-cover border-2 border-primary/40 glow-border"
+              />
+            </div>
+
             {/* Greeting */}
             <p className="text-primary font-mono text-sm md:text-base mb-4">
               Hello, I'm
@@ -83,17 +93,30 @@ const Index = () => {
 
       {/* Featured Content */}
       <div id="featured" className="container mx-auto px-4 py-20 space-y-24">
+        {/* Academic Trajectory */}
+        <SectionWrapper>
+          <div className="mb-8">
+            <h2 className="text-2xl md:text-3xl font-bold mb-2">
+              Academic <span className="text-primary">Trajectory</span>
+            </h2>
+            <p className="text-sm text-muted-foreground">
+              From secondary education through dual degrees, a master's, a PhD, and now a research stay in Germany.
+            </p>
+          </div>
+          <TrajectoryGraph />
+        </SectionWrapper>
+
         {/* Featured Papers */}
         <SectionWrapper>
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-2xl md:text-3xl font-bold">
-              Featured <span className="text-primary">Papers</span>
+              Featured <span className="text-primary">Publications</span>
             </h2>
             <Link
               to="/papers"
               className="text-sm text-muted-foreground hover:text-primary transition-colors link-underline"
             >
-              View all papers →
+              View all publications →
             </Link>
           </div>
           <div className="grid md:grid-cols-2 gap-6">

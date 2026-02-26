@@ -4,6 +4,7 @@ export interface Project {
   description: string;
   longDescription?: string;
   technologies: string[];
+  category: "research" | "software";
   links: {
     demo?: string;
     github?: string;
@@ -11,62 +12,40 @@ export interface Project {
   };
   image?: string;
   featured?: boolean;
+  partners?: string[];
+  funding?: string;
+  role?: string;
+  duration?: string;
 }
 
 export const projects: Project[] = [
   {
-    id: "neural-prover",
-    title: "NeuralProver",
-    description: "An AI system for automated theorem proving using transformers and reinforcement learning.",
-    longDescription: "NeuralProver combines state-of-the-art language models with Monte Carlo Tree Search to discover mathematical proofs. The system achieves superhuman performance on several benchmarks and can generate human-readable proof explanations.",
-    technologies: ["Python", "PyTorch", "Lean", "MCTS"],
+    id: "calm",
+    title: "CALM-COVID19: Concept-drift Aware Learning models. Applications to COVID-19 like pandemic scenarios",
+    description: "Concept Drift Sensitive Machine Learning.",
+    longDescription: "The main objective of this project is to design techniques that enable the detection and characterisation of concept drift in multimodal scenarios based on the nature of the data, focusing on health scenarios that can degenerate into pandemic situations. In this way, we will develop predictive models that are capable of maintaining consistent performance throughout the evolution of the underlying/latent process, which is therefore unknown to us. We understand the evolution of this process as something that can lead to notable changes, i.e., the appearance of ‘concept drift’. We want to detect this drift and react to it in the best possible way.",
+    technologies: ["Python", "R"],
+    category: "research",
     links: {
-      github: "https://github.com/username/neural-prover",
-      paper: "#neural-theorem-proving",
-      demo: "https://neural-prover.demo.com",
+      github: "https://www.um.es/web/aike/calm",
     },
     featured: true,
+    partners: ["University of Murcia", "Virgen de la Arrixaca Hospital"],
+    funding: "Spanish Ministry of Science (PID2020-117751RB)",
+    role: "Researcher",
+    duration: "2023 -- 2026",
   },
   {
-    id: "manifold-net",
-    title: "ManifoldNet",
-    description: "A library for geometric deep learning on Riemannian manifolds and Lie groups.",
-    longDescription: "ManifoldNet provides efficient implementations of neural network layers that operate on non-Euclidean spaces. It supports hyperbolic, spherical, and product manifolds with automatic differentiation on the tangent bundle.",
-    technologies: ["Python", "JAX", "Differential Geometry"],
+    id: "go3-project",
+    title: "go3",
+    description: "GO3: Gene Ontology Semantic Similarity",
+    longDescription: "GO3 is a high-performance GO semantic similarity library built on a Rust core exposed through a Python API (via PyO3). It provides 8 term-level similarity methods, 5 groupwise strategies, and parallelized batch operations, all accessible from a simple Python interface.",
+    technologies: ["Python", "Rust"],
+    category: "software",
     links: {
-      github: "https://github.com/username/manifold-net",
-      paper: "#geometric-deep-learning",
+      github: "https://github.com/Mellandd/GO3",
+      paper: "#go3",
     },
     featured: true,
-  },
-  {
-    id: "diffusion-viz",
-    title: "DiffusionViz",
-    description: "Interactive visualization tool for understanding diffusion models and score functions.",
-    longDescription: "An educational web application that visualizes the denoising process in diffusion models. Users can interact with 2D distributions and see how the score function guides samples toward the data manifold.",
-    technologies: ["TypeScript", "React", "D3.js", "WebGL"],
-    links: {
-      demo: "https://diffusion-viz.demo.com",
-      github: "https://github.com/username/diffusion-viz",
-    },
-  },
-  {
-    id: "causal-discovery",
-    title: "CausalKit",
-    description: "Toolkit for causal discovery and intervention analysis from observational data.",
-    technologies: ["Python", "NetworkX", "Scikit-learn"],
-    links: {
-      github: "https://github.com/username/causal-kit",
-    },
-  },
-  {
-    id: "math-benchmarks",
-    title: "MathBench",
-    description: "A comprehensive benchmark suite for evaluating mathematical reasoning in LLMs.",
-    technologies: ["Python", "LaTeX", "JSON"],
-    links: {
-      github: "https://github.com/username/math-bench",
-      demo: "https://math-bench.demo.com",
-    },
   },
 ];

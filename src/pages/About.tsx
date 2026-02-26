@@ -10,7 +10,7 @@ const About = () => {
     { icon: BookOpen, href: profile.social.scholar, label: "Google Scholar", username: "Scholar Profile" },
     { icon: Twitter, href: profile.social.twitter, label: "Twitter", username: "@username" },
     { icon: Linkedin, href: profile.social.linkedin, label: "LinkedIn", username: "linkedin.com/in/username" },
-  ];
+  ].filter((link) => !!link.href);
 
   return (
     <div className="min-h-screen pt-24 pb-16">

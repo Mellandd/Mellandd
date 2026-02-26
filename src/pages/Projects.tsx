@@ -3,8 +3,8 @@ import { ProjectCard } from "@/components/ProjectCard";
 import { projects } from "@/data/projects";
 
 const Projects = () => {
-  const featuredProjects = projects.filter((p) => p.featured);
-  const otherProjects = projects.filter((p) => !p.featured);
+  const researchProjects = projects.filter((p) => p.category === "research");
+  const softwareProjects = projects.filter((p) => p.category === "software");
 
   return (
     <div className="min-h-screen pt-24 pb-16">
@@ -22,14 +22,14 @@ const Projects = () => {
           </p>
         </SectionWrapper>
 
-        {/* Featured Projects */}
-        {featuredProjects.length > 0 && (
+        {/* Research Projects */}
+        {researchProjects.length > 0 && (
           <SectionWrapper className="mb-16">
             <h2 className="text-xl font-semibold mb-6 text-primary">
-              Featured Projects
+              Research Projects
             </h2>
             <div className="grid md:grid-cols-2 gap-6">
-              {featuredProjects.map((project, index) => (
+              {researchProjects.map((project, index) => (
                 <div
                   key={project.id}
                   className="animate-fade-in-up"
@@ -42,14 +42,14 @@ const Projects = () => {
           </SectionWrapper>
         )}
 
-        {/* Other Projects */}
-        {otherProjects.length > 0 && (
+        {/* Software & Tools */}
+        {softwareProjects.length > 0 && (
           <SectionWrapper>
             <h2 className="text-xl font-semibold mb-6 text-muted-foreground">
-              Other Projects
+              Software & Tools
             </h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {otherProjects.map((project, index) => (
+              {softwareProjects.map((project, index) => (
                 <div
                   key={project.id}
                   className="animate-fade-in-up"
