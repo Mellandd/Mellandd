@@ -148,32 +148,38 @@ function generateActivities(): string {
   lines.push(`\\section{Academic Activities}`);
 
   // Reviewing
-  lines.push(`\\subsection{Reviewing}`);
-  lines.push(`\\begin{itemize}`);
-  for (const r of reviewingActivities) {
-    lines.push(
-      `\\item ${escape(r.role)}, \\textit{${escape(r.venue)}} (${r.years.join(", ")})`
-    );
+  if (reviewingActivities.length > 0) {
+    lines.push(`\\subsection{Reviewing}`);
+    lines.push(`\\begin{itemize}`);
+    for (const r of reviewingActivities) {
+      lines.push(
+        `\\item ${escape(r.role)}, \\textit{${escape(r.venue)}} (${r.years.join(", ")})`
+      );
+    }
+    lines.push(`\\end{itemize}`);
   }
-  lines.push(`\\end{itemize}`);
 
   // Conference Participation
-  lines.push(`\\subsection{Conference Participation}`);
-  for (const c of conferenceParticipations) {
-    lines.push(
-      `\\cvitem{${escape(c.name)}}{${c.year}}{${escape(c.role)} --- ${escape(c.location)}}`
-    );
+  if (conferenceParticipations.length > 0) {
+    lines.push(`\\subsection{Conference Participation}`);
+    for (const c of conferenceParticipations) {
+      lines.push(
+        `\\cvitem{${escape(c.name)}}{${c.year}}{${escape(c.role)} --- ${escape(c.location)}}`
+      );
+    }
   }
 
   // Memberships & Service
-  lines.push(`\\subsection{Memberships \\& Service}`);
-  lines.push(`\\begin{itemize}`);
-  for (const a of otherActivities) {
-    lines.push(
-      `\\item ${escape(a.title)}, ${escape(a.organization)} (${escape(a.years)})`
-    );
+  if (otherActivities.length > 0) {
+    lines.push(`\\subsection{Memberships \\& Service}`);
+    lines.push(`\\begin{itemize}`);
+    for (const a of otherActivities) {
+      lines.push(
+        `\\item ${escape(a.title)}, ${escape(a.organization)} (${escape(a.years)})`
+      );
+    }
+    lines.push(`\\end{itemize}`);
   }
-  lines.push(`\\end{itemize}`);
 
   return lines.join("\n");
 }
