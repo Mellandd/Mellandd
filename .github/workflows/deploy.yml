@@ -39,6 +39,7 @@ jobs:
         uses: wtfjoke/setup-tectonic@v3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          tectonic-version: "0.15.0"
 
       - name: Compile LaTeX CV
         run: tectonic cv/template.tex --outdir cv
