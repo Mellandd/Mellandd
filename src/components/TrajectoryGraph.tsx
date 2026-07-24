@@ -80,7 +80,7 @@ const NODES: TNode[] = [
     cx: 722,
     cy: 375,
     r: 22,
-    type: "upcoming",
+    type: "past",
     labelDir: "below",
   },
 ];
@@ -95,7 +95,7 @@ const EDGES = [
   { from: "bsmath", to: "master", upcoming: false },
   { from: "bscs", to: "master", upcoming: false },
   { from: "master", to: "phd", upcoming: false },
-  { from: "phd", to: "research", upcoming: true },
+  { from: "phd", to: "research", upcoming: false },
 ];
 
 function getPath(fromId: string, toId: string): string {

@@ -100,7 +100,7 @@ const Index = () => {
               Academic <span className="text-primary">Trajectory</span>
             </h2>
             <p className="text-sm text-muted-foreground">
-              From secondary education through dual degrees, a master's, a PhD, and now a research stay in Germany.
+              I am continuing my PhD in Murcia after completing a three-month research stay in Germany.
             </p>
           </div>
           <TrajectoryGraph />

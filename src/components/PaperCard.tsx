@@ -28,7 +28,7 @@ const typeLabels: Record<PaperType, string> = {
 
 const linkLabels: Record<PaperType, string> = {
   journal: "Paper",
-  conference: "Proceedings",
+  conference: "Accepted paper",
   preprint: "Preprint",
   poster: "Abstract",
   talk: "Slides",

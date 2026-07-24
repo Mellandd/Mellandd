@@ -20,6 +20,20 @@ export interface Paper {
 
 export const papers: Paper[] = [
   {
+    id: "structure-aware-biomedical-embeddings",
+    title: "Structure-Aware Contrastive Learning for Biomedical Embeddings: Bridging the Gap Between HPO and Clinical Literature",
+    authors: ["Jose Luis Mellina Andreu", "Alejandro Cisterna García", "Juan Botía"],
+    venue: "Accepted at IJCAI-ECAI 2026 — Special Track on AI and Health",
+    year: 2026,
+    abstract: "Large Language Models (LLMs) are extensively used at biomedical text processing but often fail to capture the complex, functional relationships encoded in expert knowledge graphs like the Human Phenotype Ontology (HPO). This “semantic gap” limits their utility in precision medicine tasks such as rare disease diagnosis, where distinguishing overlapping clinical presentations requires understanding underlying pathophysiological connections rather than just surface-level textual similarity. In this work, we propose a Neuro-Symbolic Alignment Framework that bridges this separation by integrating literature-mined specialized phenotypical descriptions with the ontological structure used as reference. Specifically, we augment phenotype representations with automatically selected text fragments from massive corpus of descriptions mined from scientific literature (PubMed), overcoming the typical data scarcity of standard ontology definitions. We define a new embedding adaptation procedure whose fine-tuning approach is guided by a novel “Disease-Overlap” similarity measure, which prioritizes clinical co-occurrence of phenotypes over taxonomic distance, and optimizes the embedding space using AnglE Loss to mitigate gradient saturation. Extensive evaluations show that our approach significantly outperforms state-of-the-art baselines, including SapBERT, on both intrinsic semantic correlation and practical downstream tasks, including synthetic patient disease ranking and solving real cases stored in Phenopacket, where our model achieves x4 top-1 accuracy than the previous best model.",
+    tags: ["Large Language Models", "Biomedical NLP", "Knowledge Graphs", "Bioinformatics"],
+    type: "conference",
+    links: {
+      arxiv: "https://2026.ijcai.org/accepted-papers/",
+    },
+    featured: true,
+  },
+  {
     id: "phenolinker",
     title: "Phenolinker: Phenotype-gene link prediction and explanation using heterogeneous graph neural networks",
     authors: ["Jose L. Mellina-Andreu",  "Luis Bernal", "Antonio F Skarmeta", "Mina Ryten", "Sara Álvarez", "Alejandro Cisterna García", "Juan A Botía"],
@@ -69,17 +83,16 @@ export const papers: Paper[] = [
   },
   {
     id: "go3",
-    title: "go3: A Fast and Lightweight Library for Semantic Similarity of GO Terms and Genes",
+    title: "GO3: A fast and lightweight library for semantic similarity of GO terms and genes",
     authors: ["Jose L. Mellina-Andreu", "Alejandro Cisterna-García", "Juan A Botía"],
-    venue: "BioArXiv",
-    year: 2025,
+    venue: "SoftwareX, 35, 102755",
+    year: 2026,
     abstract: "Motivation: Calculation of semantic similarity of Gene Ontology (GO) term subsets is a fundamental task in functional genomics, comparative studies, and biomedical data integration. Existing tools, primarily in Python or R, often face severe limitations in performance when scaling to large annotation datasets. Results: We present go3, the first high-performance, Python-compatible library written in Rust that supports multiple semantic similarity metrics for GO terms and genes. go3 supports both pairwise and batch computations, optimized using Rust’s parallelism and memory safety. Compared to GOATOOLS, the state of the art, it achieves up to 5x speedup and 25x lower memory footprint when loading the GO ontology and gene annotations, and up to x 10 3 speedup when calculating semantic similarities between genes, while preserving output compatibility. Availability and implementation: go3 is implemented in Rust and available through Python 3. It is accessible in GitHub: (https://github.com/Mellandd/GO3).",
     tags: ["Python", "Rust", "Bioinformatics", "Library"],
-    type: "preprint",
+    type: "journal",
     links: {
-      arxiv: "https://www.biorxiv.org/content/10.1101/2025.09.04.669468v1.abstract",
+      arxiv: "https://www.sciencedirect.com/science/article/pii/S2352711026002475",
       code: "https://github.com/Mellandd/GO3",
-      pdf: "https://www.biorxiv.org/content/10.1101/2025.09.04.669468v1.full.pdf",
     },
   },
   {
