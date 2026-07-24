@@ -1,5 +1,47 @@
-export const profile = {
+interface Education {
+  degree: string;
+  institution: string;
+  years: string;
+  focus?: string;
+  honors?: string;
+}
+
+interface SocialLinks {
+  email: string;
+  github: string;
+  scholar: string;
+  linkedin: string;
+  twitter?: string;
+}
+
+interface Profile {
+  name: string;
+  publicationNames: string[];
+  initials: string;
+  title: string;
+  tagline: string;
+  affiliation: {
+    department: string;
+    university: string;
+    lab: string;
+  };
+  bio: string;
+  researchInterests: string[];
+  education: Education[];
+  social: SocialLinks;
+  cv: {
+    path: string;
+    downloadName: string;
+    summary: string;
+  };
+}
+
+export const profile: Profile = {
   name: "Jose Luis Mellina Andreu",
+  publicationNames: [
+    "Jose Luis Mellina Andreu",
+    "Jose L. Mellina-Andreu",
+  ],
   initials: "JL",
   title: "PhD Researcher in AI",
   tagline: "Exploring the intersection of Deep Learning, Mathematics and Biology.",
@@ -50,5 +92,10 @@ Before starting my PhD, I completed my undergraduate studies in Mathematics and 
 //    twitter: "https://twitter.com/username",
     linkedin: "https://linkedin.com/in/jose-luis-mellina",
   },
-  cv: "/cv.pdf", // Place your CV in the public folder
+  cv: {
+    path: "cv.pdf",
+    downloadName: "jose-luis-mellina-academic-cv.pdf",
+    summary:
+      "PhD researcher working on graph neural networks and language models for bioinformatics, with a focus on interpretable representations of human genomics and biomedical ontologies.",
+  },
 };

@@ -3,29 +3,26 @@ name: Build CV & Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
-  group: pages
+  group: pages-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
 
       - name: Install dependencies
@@ -33,13 +30,19 @@ jobs:
 
       # ── Generate CV ────────────────────────────────────────────
       - name: Generate LaTeX sections from data
-        run: npx tsx cv/generate-cv.ts
+        run: npm run cv:generate
 
       - name: Install tectonic
         uses: wtfjoke/setup-tectonic@v3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          tectonic-version: "0.15.0"
+          tectonic-version: "0.16.9"
+
+      - name: Cache Tectonic packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/Tectonic
+          key: ${{ runner.os }}-tectonic-0.16.9
 
       - name: Compile LaTeX CV
         run: tectonic cv/template.tex --outdir cv
@@ -48,14 +51,40 @@ jobs:
         run: cp cv/template.pdf public/cv.pdf
 
       # ── Build site ─────────────────────────────────────────────
+      - name: Type-check site
+        run: npm run typecheck
+
+      - name: Run tests
+        run: npm test
+
       - name: Build Vite site
         run: npm run build
 
+      - name: Upload standalone CV
+        uses: actions/upload-artifact@v4
+        with:
+          name: jose-luis-mellina-cv-${{ github.sha }}
+          path: public/cv.pdf
+          if-no-files-found: error
+          retention-days: 30
+
       - name: Upload Pages artifact
+        if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v3
         with:
           path: dist
 
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

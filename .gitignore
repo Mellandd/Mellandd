@@ -4,4 +4,5 @@ dist
 # CV build artifacts
 cv/sections/
 cv/*.pdf
+cv/*.log
 public/cv.pdf

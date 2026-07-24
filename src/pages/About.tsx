@@ -1,7 +1,7 @@
-import { Download, Mail, Github, Twitter, Linkedin, BookOpen, MapPin, GraduationCap } from "lucide-react";
+import { Mail, Github, Twitter, Linkedin, BookOpen, MapPin, GraduationCap } from "lucide-react";
 import { SectionWrapper } from "@/components/SectionWrapper";
+import { CvActions } from "@/components/CvActions";
 import { profile } from "@/data/profile";
-import { Button } from "@/components/ui/button";
 
 const About = () => {
   const socialLinks = [
@@ -114,12 +114,7 @@ const About = () => {
                   Download my full CV for a complete overview of my academic background,
                   publications, and experience.
                 </p>
-                <Button asChild className="w-full glow">
-                  <a href={`${import.meta.env.BASE_URL}cv.pdf`} download>
-                    <Download className="mr-2 h-4 w-4" />
-                    Download CV
-                  </a>
-                </Button>
+                <CvActions />
               </div>
             </SectionWrapper>
 

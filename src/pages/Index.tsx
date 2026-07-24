@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Download, ChevronDown } from "lucide-react";
+import { ArrowRight, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ParticleBackground } from "@/components/ParticleBackground";
 import { SectionWrapper } from "@/components/SectionWrapper";
@@ -7,6 +7,7 @@ import { PaperCard } from "@/components/PaperCard";
 import { ProjectCard } from "@/components/ProjectCard";
 import { BlogCard } from "@/components/BlogCard";
 import { TrajectoryGraph } from "@/components/TrajectoryGraph";
+import { CvActions } from "@/components/CvActions";
 import { profile } from "@/data/profile";
 import { papers } from "@/data/papers";
 import { projects } from "@/data/projects";
@@ -71,12 +72,7 @@ const Index = () => {
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
-              <Button asChild variant="outline" size="lg">
-                <a href={`${import.meta.env.BASE_URL}cv.pdf`} download>
-                  <Download className="mr-2 h-4 w-4" />
-                  Download CV
-                </a>
-              </Button>
+              <CvActions compact />
             </div>
           </div>
         </div>
