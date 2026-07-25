@@ -20,6 +20,23 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    id: "iarecgnn",
+    title: "IArecGNN: AI Module for Automatic Recommendations and Inductive Learning with Graph Neural Networks",
+    description:
+      "Development of an AI module for automatic recommendations and inductive learning using graph neural networks.",
+    longDescription:
+      "Development of an AI module for automatic recommendations and inductive learning using graph neural networks. The project is conducted under an Article 60 contract of Spain's Organic Law on the University System (LOSU), supporting research and knowledge transfer between the university and a private-sector partner.",
+    technologies: [
+      "Artificial Intelligence",
+      "Graph Neural Networks",
+      "Recommender Systems",
+    ],
+    category: "research",
+    links: {},
+    funding: "RIAM INTELEARNING LAB, S.L.",
+    role: "Researcher",
+  },
+  {
     id: "calm",
     title: "CALM-COVID19: Concept-drift Aware Learning models. Applications to COVID-19 like pandemic scenarios",
     description: "Concept Drift Sensitive Machine Learning.",

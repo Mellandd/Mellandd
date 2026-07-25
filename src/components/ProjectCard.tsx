@@ -33,8 +33,12 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
         {/* Research metadata */}
         {(project.role || project.duration || project.funding || project.partners) && (
           <div className="text-xs text-muted-foreground space-y-1">
-            {project.role && project.duration && (
-              <p><span className="font-medium text-foreground/80">Role:</span> {project.role} ({project.duration})</p>
+            {project.role && (
+              <p>
+                <span className="font-medium text-foreground/80">Role:</span>{" "}
+                {project.role}
+                {project.duration && ` (${project.duration})`}
+              </p>
             )}
             {project.funding && (
               <p><span className="font-medium text-foreground/80">Funding:</span> {project.funding}</p>
