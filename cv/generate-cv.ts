@@ -50,6 +50,7 @@ function generateMetadata(): string {
 function generateHeader(): string {
   const contacts = [
     link(`mailto:${profile.social.email}`, profile.social.email),
+    link(profile.social.website, "Website"),
     link(profile.social.github, "GitHub"),
     link(profile.social.scholar, "Google Scholar"),
     link(profile.social.linkedin, "LinkedIn"),
@@ -203,8 +204,12 @@ function generateActivities(): string {
   if (conferenceParticipations.length > 0) {
     lines.push("\\subsection{Conference Participation}");
     for (const conference of descendingByYear(conferenceParticipations)) {
+      const details = [conference.role, conference.location]
+        .filter(Boolean)
+        .map((detail) => escapeLatex(detail))
+        .join(" — ");
       lines.push(
-        `\\cvitem{${escapeLatex(conference.name)}}{${conference.year}}{${escapeLatex(conference.role)} — ${escapeLatex(conference.location)}}`
+        `\\cvitem{${escapeLatex(conference.name)}}{${conference.year}}{${details}}`
       );
     }
   }

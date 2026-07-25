@@ -12,6 +12,7 @@ const roleColors: Record<string, string> = {
   "Sub-reviewer": "bg-cyan-500/20 text-cyan-400 border-cyan-500/30",
   "Program Committee": "bg-purple-500/20 text-purple-400 border-purple-500/30",
   "Poster Presentation": "bg-green-500/20 text-green-400 border-green-500/30",
+  "Oral and Poster Presentation": "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
   "Doctoral Consortium": "bg-orange-500/20 text-orange-400 border-orange-500/30",
   "Invited Talk": "bg-pink-500/20 text-pink-400 border-pink-500/30",
 };
@@ -92,7 +93,9 @@ const Activities = () => {
                       </span>
                     </div>
                     <h3 className="font-medium">{conf.name}</h3>
-                    <p className="text-sm text-muted-foreground">{conf.location}</p>
+                    {conf.location && (
+                      <p className="text-sm text-muted-foreground">{conf.location}</p>
+                    )}
                   </div>
                 </div>
               </article>

@@ -9,7 +9,7 @@ export interface ConferenceParticipation {
   id: string;
   name: string;
   role: string;
-  location: string;
+  location?: string;
   year: number;
 }
 
@@ -31,6 +31,12 @@ export const reviewingActivities: ReviewingActivity[] = [
 ];
 
 export const conferenceParticipations: ConferenceParticipation[] = [
+  {
+    id: "ijcai-ecai-paper",
+    name: "International Joint Conference on Artificial Intelligence and European Conference on Artificial Intelligence (IJCAI-ECAI)",
+    role: "Oral and Poster Presentation",
+    year: 2026,
+  },
   {
     id: "eccb-poster",
     name: "Intelligent Systems for Molecular Biology (ISMB) and European Conference on Computational Biology (ECCB)",

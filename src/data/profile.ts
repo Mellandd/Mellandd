@@ -8,6 +8,7 @@ interface Education {
 
 interface SocialLinks {
   email: string;
+  website: string;
   github: string;
   scholar: string;
   linkedin: string;
@@ -87,6 +88,7 @@ Before starting my PhD, I completed my undergraduate studies in Mathematics and 
   ],
   social: {
     email: "joseluis.mellinaa@um.es",
+    website: "https://mellandd.github.io/Mellandd/",
     github: "https://github.com/Mellandd",
     scholar: "https://scholar.google.es/citations?user=7asCEJwAAAAJ",
 //    twitter: "https://twitter.com/username",
