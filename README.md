@@ -1,42 +1,59 @@
-# Personal academic website
+# Jose Luis Mellina Andreu
 
-The website and academic CV share the structured data in `src/data`. Updating a
-publication, project, course, activity, or profile entry updates both outputs.
+### PhD Researcher in Artificial Intelligence
 
-## Local development
+I am a PhD candidate at the University of Murcia working at the intersection of
+deep learning, mathematics, and biology. My research focuses on graph neural
+networks and large language models for bioinformatics, particularly
+interpretable representations of human genomics and biomedical ontologies.
 
-```sh
-npm ci
-npm run dev
-```
+My current work explores how machine learning can encode and complete
+biomedical knowledge resources such as the Human Phenotype Ontology and the
+Gene Ontology. I am also interested in making language-model embeddings more
+interpretable by connecting their internal representations to structured domain
+knowledge.
 
-Useful checks:
+## Research interests
 
-```sh
-npm test
-npm run typecheck
-npm run build
-npm run lint
-```
+- Graph neural networks and knowledge graphs
+- Large language models and biomedical NLP
+- Explainable and interpretable machine learning
+- Bioinformatics and human genomics
+- Machine learning theory
 
-## CV
+## Selected research
 
-Generate the LaTeX section files:
+- **Structure-Aware Contrastive Learning for Biomedical Embeddings** — Bridging
+  clinical literature and the Human Phenotype Ontology through
+  neuro-symbolic representation learning. Accepted at IJCAI-ECAI 2026.
 
-```sh
-npm run cv:generate
-```
+- **GO3: A fast and lightweight library for semantic similarity of GO terms and
+  genes** — A high-performance Rust and Python library for large-scale Gene
+  Ontology semantic similarity. Published in *SoftwareX*.
+  [Code](https://github.com/Mellandd/GO3)
 
-With [Tectonic](https://tectonic-typesetting.github.io/) installed, compile the
-PDF locally:
+- **PhenoLinker: Phenotype-gene link prediction and explanation using
+  heterogeneous graph neural networks** — An explainable graph-learning system
+  for predicting phenotype–gene associations. Published in *Artificial
+  Intelligence in Medicine*.
+  [Code](https://github.com/Mellandd/PhenoLinker)
 
-```sh
-npm run cv:build
-```
+- **Data-driven interpretation of dimensions in an embedding language model
+  based on a reference knowledge graph** — A method for connecting
+  language-model embedding dimensions to meaningful ontology concepts.
+  Published in *Knowledge-Based Systems*.
+  [Code](https://github.com/Mellandd/DEIBO)
 
-The source template lives at `cv/template.tex`; generated section files and
-PDFs are intentionally ignored by Git. GitHub Actions regenerates and compiles
-the CV for every pull request targeting `main`, making LaTeX errors visible
-before merge. Pushes to `main` additionally copy the PDF into the Vite site,
-upload it as a standalone workflow artifact, and deploy the site to GitHub
-Pages.
+## Background
+
+- **PhD in Computer Science**, University of Murcia — 2023–present
+- **MSc in Big Data Analysis Technologies**, University of Murcia — 2022–2023
+- **BSc in Computer Science**, University of Murcia — 2017–2022
+- **BSc in Mathematics**, University of Murcia — 2017–2022
+
+## Connect
+
+- [Academic website](https://mellandd.github.io/Mellandd/)
+- [Google Scholar](https://scholar.google.es/citations?user=7asCEJwAAAAJ)
+- [LinkedIn](https://linkedin.com/in/jose-luis-mellina)
+- [Email](mailto:joseluis.mellinaa@um.es)
