@@ -20,7 +20,11 @@ function escapeLatex(value: string): string {
     .replace(/\\/g, "\\textbackslash{}")
     .replace(/[&%$#_{}]/g, (character) => `\\${character}`)
     .replace(/~/g, "\\textasciitilde{}")
-    .replace(/\^/g, "\\textasciicircum{}");
+    .replace(/\^/g, "\\textasciicircum{}")
+    .replace(/—/g, "---")
+    .replace(/–/g, "--")
+    .replace(/·/g, "\\textbar{}")
+    .replace(/×/g, "\\ensuremath{\\times}");
 }
 
 function link(url: string, label: string): string {
@@ -37,7 +41,7 @@ function generateMetadata(): string {
   return [
     `\\newcommand{\\cvname}{${escapeLatex(profile.name)}}`,
     "\\hypersetup{",
-    `  pdftitle={Curriculum Vitae — ${escapeLatex(profile.name)}},`,
+    `  pdftitle={Curriculum Vitae - ${escapeLatex(profile.name)}},`,
     `  pdfauthor={${escapeLatex(profile.name)}},`,
     `  pdfsubject={AI research curriculum vitae for ${escapeLatex(profile.name)}},`,
     `  pdfkeywords={${escapeLatex(keywords)}},`,
@@ -59,7 +63,7 @@ function generateHeader(): string {
   return [
     "\\begin{center}",
     `{\\Huge\\bfseries\\color{accent} ${escapeLatex(profile.name)}}\\\\[5pt]`,
-    `{\\large ${escapeLatex(profile.title)} — ${escapeLatex(profile.affiliation.university)}}\\\\[7pt]`,
+    `{\\large ${escapeLatex(profile.title)} --- ${escapeLatex(profile.affiliation.university)}}\\\\[7pt]`,
     `{\\small ${contacts.join("\\quad\\textcolor{rule}{|}\\quad ")}}`,
     "\\end{center}",
     "\\vspace{0.1em}",
@@ -71,7 +75,7 @@ function generateProfile(): string {
     "\\section{AI Research Profile}",
     `\\noindent ${escapeLatex(profile.cv.summary)}\\par`,
     "\\vspace{0.35em}",
-    `\\noindent\\textbf{Research interests:} ${profile.researchInterests.map(escapeLatex).join(" · ")}`,
+    `\\noindent\\textbf{Research interests:} ${profile.researchInterests.map(escapeLatex).join(" \\textbar{} ")}`,
   ].join("\n");
 }
 
@@ -80,7 +84,7 @@ function generateExpertise(): string {
 
   for (const expertise of profile.expertise) {
     lines.push(
-      `\\cvitem{${escapeLatex(expertise.area)}}{${expertise.topics.map(escapeLatex).join(" · ")}}{${escapeLatex(expertise.description)}}`
+      `\\cvitem{${escapeLatex(expertise.area)}}{${expertise.topics.map(escapeLatex).join(" \\textbar{} ")}}{${escapeLatex(expertise.description)}}`
     );
   }
 
@@ -92,12 +96,12 @@ function generateEducation(): string {
 
   for (const education of profile.education) {
     const honors = education.honors
-      ? ` — \\textit{${escapeLatex(education.honors)}}`
+      ? ` --- \\textit{${escapeLatex(education.honors)}}`
       : "";
     const focus = education.focus ? escapeLatex(education.focus) : "";
     const subtitle = [escapeLatex(education.institution), focus]
       .filter(Boolean)
-      .join(" — ");
+      .join(" --- ");
 
     lines.push(
       `\\cventry{${escapeLatex(education.degree)}${honors}}{${escapeLatex(education.years)}}{${subtitle}}{}`
@@ -191,12 +195,12 @@ function generateTeaching(): string {
   const lines = ["\\section{Teaching}"];
 
   for (const course of descendingByYear(courses)) {
-    const topics = course.topics?.map(escapeLatex).join(" · ") ?? "";
+    const topics = course.topics?.map(escapeLatex).join(" \\textbar{} ") ?? "";
     const topicText = topics
       ? ` {\\small\\color{light}Topics: ${topics}}`
       : "";
     lines.push(
-      `\\noindent{\\small\\textbf{${escapeLatex(course.title)}} (${escapeLatex(course.code)}) — ${escapeLatex(course.role)}, ${escapeLatex(course.semester)} ${course.year}.${topicText}}\\par\\vspace{0.15em}`
+      `\\noindent{\\small\\textbf{${escapeLatex(course.title)}} (${escapeLatex(course.code)}) --- ${escapeLatex(course.role)}, ${escapeLatex(course.semester)} ${course.year}.${topicText}}\\par\\vspace{0.15em}`
     );
   }
 
@@ -210,7 +214,7 @@ function generateActivities(): string {
     lines.push("\\begin{itemize}");
     for (const review of reviewingActivities) {
       lines.push(
-        `\\item \\textbf{${escapeLatex(review.role)}} — \\textit{${escapeLatex(review.venue)}} (${review.years.join(", ")})`
+        `\\item \\textbf{${escapeLatex(review.role)}} --- \\textit{${escapeLatex(review.venue)}} (${review.years.join(", ")})`
       );
     }
     for (const conference of descendingByYear(conferenceParticipations)) {
@@ -219,7 +223,7 @@ function generateActivities(): string {
         .map((detail) => escapeLatex(detail))
         .join(", ");
       lines.push(
-        `\\item \\textbf{${escapeLatex(conference.shortName ?? conference.name)}} — ${details} (${conference.year})`
+        `\\item \\textbf{${escapeLatex(conference.shortName ?? conference.name)}} --- ${details} (${conference.year})`
       );
     }
     lines.push("\\end{itemize}");

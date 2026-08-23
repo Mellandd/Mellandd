@@ -45,7 +45,20 @@ jobs:
           key: ${{ runner.os }}-tectonic-0.16.9
 
       - name: Compile LaTeX CV
-        run: tectonic cv/template.tex --outdir cv
+        shell: bash
+        run: |
+          for attempt in 1 2 3; do
+            if tectonic cv/template.tex --outdir cv; then
+              exit 0
+            fi
+
+            if [ "$attempt" -lt 3 ]; then
+              echo "::warning::Tectonic download failed (attempt $attempt/3); retrying with the populated cache."
+              sleep "$((attempt * 10))"
+            fi
+          done
+
+          exit 1
 
       - name: Copy CV PDF to public
         run: cp cv/template.pdf public/cv.pdf
