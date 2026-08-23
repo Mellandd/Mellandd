@@ -64,7 +64,7 @@ const NODES: TNode[] = [
   {
     id: "phd",
     label: "Ph.D. Computer Science",
-    sublabel: "Universidad de Murcia · BioIA Lab",
+    sublabel: "University of Murcia · AI Research",
     years: "2023 – Present",
     cx: 722,
     cy: 250,

@@ -6,10 +6,10 @@ import { profile } from "@/data/profile";
 const About = () => {
   const socialLinks = [
     { icon: Mail, href: `mailto:${profile.social.email}`, label: "Email", username: profile.social.email },
-    { icon: Github, href: profile.social.github, label: "GitHub", username: "@username" },
+    { icon: Github, href: profile.social.github, label: "GitHub", username: "@Mellandd" },
     { icon: BookOpen, href: profile.social.scholar, label: "Google Scholar", username: "Scholar Profile" },
     { icon: Twitter, href: profile.social.twitter, label: "Twitter", username: "@username" },
-    { icon: Linkedin, href: profile.social.linkedin, label: "LinkedIn", username: "linkedin.com/in/username" },
+    { icon: Linkedin, href: profile.social.linkedin, label: "LinkedIn", username: "jose-luis-mellina" },
   ].filter((link) => !!link.href);
 
   return (
@@ -56,6 +56,27 @@ const About = () => {
               </div>
             </SectionWrapper>
 
+            {/* AI Expertise */}
+            <SectionWrapper>
+              <h3 className="text-xl font-semibold mb-6">AI Expertise</h3>
+              <div className="grid sm:grid-cols-2 gap-4">
+                {profile.expertise.map((item) => (
+                  <div
+                    key={item.area}
+                    className="p-4 rounded-lg border border-border bg-card/50"
+                  >
+                    <h4 className="font-semibold text-primary mb-2">{item.area}</h4>
+                    <p className="text-sm text-muted-foreground leading-relaxed mb-3">
+                      {item.description}
+                    </p>
+                    <p className="text-xs text-foreground/70">
+                      {item.topics.join(" · ")}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </SectionWrapper>
+
             {/* Education */}
             <SectionWrapper>
               <h3 className="text-xl font-semibold mb-6 flex items-center gap-2">
@@ -90,7 +111,7 @@ const About = () => {
 
             {/* Research Interests */}
             <SectionWrapper>
-              <h3 className="text-xl font-semibold mb-6">Research Interests</h3>
+              <h3 className="text-xl font-semibold mb-6">Core Research Areas</h3>
               <div className="flex flex-wrap gap-3">
                 {profile.researchInterests.map((interest) => (
                   <span
@@ -111,8 +132,8 @@ const About = () => {
               <div className="p-6 rounded-lg border border-primary/30 bg-primary/5">
                 <h3 className="font-semibold mb-4">Curriculum Vitae</h3>
                 <p className="text-sm text-muted-foreground mb-4">
-                  Download my full CV for a complete overview of my academic background,
-                  publications, and experience.
+                  Download my AI-focused CV for research expertise, selected projects,
+                  publications, teaching, and academic service.
                 </p>
                 <CvActions />
               </div>

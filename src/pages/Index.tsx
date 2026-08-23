@@ -39,9 +39,9 @@ const Index = () => {
               />
             </div>
 
-            {/* Greeting */}
-            <p className="text-primary font-mono text-sm md:text-base mb-4">
-              Hello, I'm
+            {/* Positioning */}
+            <p className="text-primary font-mono text-xs md:text-sm uppercase tracking-[0.22em] mb-4">
+              AI research · Deep learning
             </p>
 
             {/* Name */}
@@ -61,14 +61,14 @@ const Index = () => {
 
             {/* Affiliation */}
             <p className="text-sm text-muted-foreground mb-8">
-              {profile.affiliation.lab} • {profile.affiliation.university}
+              {profile.affiliation.department} · {profile.affiliation.university}
             </p>
 
             {/* CTA Buttons */}
             <div className="flex flex-wrap items-center justify-center gap-4">
               <Button asChild size="lg" className="glow">
                 <Link to="/about">
-                  Get in Touch
+                  About &amp; contact
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
@@ -89,17 +89,44 @@ const Index = () => {
 
       {/* Featured Content */}
       <div id="featured" className="container mx-auto px-4 py-20 space-y-24">
-        {/* Academic Trajectory */}
+        {/* AI Expertise */}
         <SectionWrapper>
           <div className="mb-8">
             <h2 className="text-2xl md:text-3xl font-bold mb-2">
-              Academic <span className="text-primary">Trajectory</span>
+              Research <span className="text-primary">Focus</span>
             </h2>
-            <p className="text-sm text-muted-foreground">
-              I am continuing my PhD in Murcia after completing a three-month research stay in Germany.
+            <p className="text-sm text-muted-foreground max-w-2xl">
+              I develop transferable AI methods, from model design and training to
+              interpretation, evaluation, and efficient implementation.
             </p>
           </div>
-          <TrajectoryGraph />
+          <div className="grid md:grid-cols-2 gap-4">
+            {profile.expertise.map((item, index) => (
+              <article
+                key={item.area}
+                className="group p-6 rounded-lg border border-border bg-card/50 card-hover"
+              >
+                <div className="flex items-start justify-between gap-4 mb-3">
+                  <h3 className="text-lg font-semibold group-hover:text-primary transition-colors">
+                    {item.area}
+                  </h3>
+                  <span className="font-mono text-xs text-primary/70">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                </div>
+                <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+                  {item.description}
+                </p>
+                <div className="flex flex-wrap gap-x-3 gap-y-1">
+                  {item.topics.map((topic) => (
+                    <span key={topic} className="text-xs text-foreground/70">
+                      {topic}
+                    </span>
+                  ))}
+                </div>
+              </article>
+            ))}
+          </div>
         </SectionWrapper>
 
         {/* Featured Papers */}
@@ -142,42 +169,40 @@ const Index = () => {
           </div>
         </SectionWrapper>
 
-        {/* Recent Blog Posts */}
+        {/* Academic Trajectory */}
         <SectionWrapper>
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl md:text-3xl font-bold">
-              Recent <span className="text-primary">Updates</span>
+          <div className="mb-8">
+            <h2 className="text-2xl md:text-3xl font-bold mb-2">
+              Academic <span className="text-primary">Trajectory</span>
             </h2>
-            <Link
-              to="/blog"
-              className="text-sm text-muted-foreground hover:text-primary transition-colors link-underline"
-            >
-              View all posts →
-            </Link>
+            <p className="text-sm text-muted-foreground">
+              Mathematics and computer science foundations, followed by advanced AI research.
+            </p>
           </div>
-          <div className="grid md:grid-cols-2 gap-6">
-            {recentPosts.map((post) => (
-              <BlogCard key={post.id} post={post} />
-            ))}
-          </div>
+          <TrajectoryGraph />
         </SectionWrapper>
 
-        {/* Research Interests */}
-        <SectionWrapper className="text-center">
-          <h2 className="text-2xl md:text-3xl font-bold mb-8">
-            Research <span className="text-primary">Interests</span>
-          </h2>
-          <div className="flex flex-wrap justify-center gap-3 max-w-3xl mx-auto">
-            {profile.researchInterests.map((interest) => (
-              <span
-                key={interest}
-                className="px-4 py-2 rounded-full border border-primary/30 text-sm font-medium hover:bg-primary/10 hover:border-primary transition-colors"
+        {/* Recent Blog Posts */}
+        {recentPosts.length > 0 && (
+          <SectionWrapper>
+            <div className="flex items-center justify-between mb-8">
+              <h2 className="text-2xl md:text-3xl font-bold">
+                Recent <span className="text-primary">Updates</span>
+              </h2>
+              <Link
+                to="/blog"
+                className="text-sm text-muted-foreground hover:text-primary transition-colors link-underline"
               >
-                {interest}
-              </span>
-            ))}
-          </div>
-        </SectionWrapper>
+                View all posts →
+              </Link>
+            </div>
+            <div className="grid md:grid-cols-2 gap-6">
+              {recentPosts.map((post) => (
+                <BlogCard key={post.id} post={post} />
+              ))}
+            </div>
+          </SectionWrapper>
+        )}
       </div>
     </div>
   );

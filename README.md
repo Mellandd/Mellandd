@@ -1,41 +1,42 @@
 # Jose Luis Mellina Andreu
 
-### PhD Researcher in Artificial Intelligence
+### AI Researcher · Deep Learning, LLMs & GNNs
 
-I am a PhD candidate at the University of Murcia working at the intersection of
-deep learning, mathematics, and biology. My research focuses on graph neural
-networks and large language models for bioinformatics, particularly
-interpretable representations of human genomics and biomedical ontologies.
+I am an AI researcher and PhD candidate at the University of Murcia developing
+deep learning methods for language, graphs, and structured knowledge. My work
+spans large language models, graph neural networks, representation learning,
+knowledge graphs, explainable AI, and reliable machine learning.
 
-My current work explores how machine learning can encode and complete
-biomedical knowledge resources such as the Human Phenotype Ontology and the
-Gene Ontology. I am also interested in making language-model embeddings more
-interpretable by connecting their internal representations to structured domain
-knowledge.
+I study how learned representations can be aligned with structured knowledge,
+made easier to interpret, and deployed reliably under real-world constraints.
+My research combines new methods, careful evaluation, and efficient software,
+with scientific and healthcare data serving as challenging application domains.
 
 ## Research interests
 
+- Large language models and representation learning
 - Graph neural networks and knowledge graphs
-- Large language models and biomedical NLP
-- Explainable and interpretable machine learning
-- Bioinformatics and human genomics
-- Machine learning theory
+- Explainable and interpretable AI
+- Reliable machine learning and concept drift
+- Research software and high-performance computing
 
 ## Selected research
 
-- **Structure-Aware Contrastive Learning for Biomedical Embeddings** — Bridging
-  clinical literature and the Human Phenotype Ontology through
-  neuro-symbolic representation learning. Accepted at IJCAI-ECAI 2026.
+- **Structure-Aware Contrastive Learning for Biomedical Embeddings** — A
+  neuro-symbolic alignment framework combining language-model adaptation,
+  contrastive learning, and knowledge-graph structure. Accepted at IJCAI-ECAI
+  2026.
 
 - **GO3: A fast and lightweight library for semantic similarity of GO terms and
-  genes** — A high-performance Rust and Python library for large-scale Gene
-  Ontology semantic similarity. Published in *SoftwareX*.
+  genes** — A high-performance Rust and Python library with parallel batch
+  operations and substantial speed and memory improvements. Published in
+  *SoftwareX*.
   [Code](https://github.com/Mellandd/GO3)
 
 - **PhenoLinker: Phenotype-gene link prediction and explanation using
-  heterogeneous graph neural networks** — An explainable graph-learning system
-  for predicting phenotype–gene associations. Published in *Artificial
-  Intelligence in Medicine*.
+  heterogeneous graph neural networks** — An explainable heterogeneous graph
+  learning system combining link prediction and Integrated Gradients.
+  Published in *Artificial Intelligence in Medicine*.
   [Code](https://github.com/Mellandd/PhenoLinker)
 
 - **Data-driven interpretation of dimensions in an embedding language model

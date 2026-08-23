@@ -4,6 +4,7 @@ import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { profile } from "@/data/profile";
+import { blogPosts } from "@/data/blog";
 
 const navItems = [
   { label: "Home", path: "/" },
@@ -11,7 +12,7 @@ const navItems = [
   { label: "Projects", path: "/projects" },
   { label: "Teaching", path: "/teaching" },
   { label: "Activities", path: "/activities" },
-  { label: "Blog", path: "/blog" },
+  ...(blogPosts.length > 0 ? [{ label: "Blog", path: "/blog" }] : []),
   { label: "About", path: "/about" },
 ];
 

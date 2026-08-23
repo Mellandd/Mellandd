@@ -17,8 +17,8 @@ const Projects = () => {
             <span className="text-primary">/&gt;</span>
           </h1>
           <p className="text-muted-foreground max-w-2xl">
-            Research projects and open-source tools I've built. From theorem
-            provers to visualization libraries.
+            Applied AI research and research software spanning graph learning,
+            reliable machine learning, recommendation, and high-performance computing.
           </p>
         </SectionWrapper>
 

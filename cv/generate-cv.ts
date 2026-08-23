@@ -39,7 +39,7 @@ function generateMetadata(): string {
     "\\hypersetup{",
     `  pdftitle={Curriculum Vitae — ${escapeLatex(profile.name)}},`,
     `  pdfauthor={${escapeLatex(profile.name)}},`,
-    `  pdfsubject={Academic curriculum vitae for ${escapeLatex(profile.name)}},`,
+    `  pdfsubject={AI research curriculum vitae for ${escapeLatex(profile.name)}},`,
     `  pdfkeywords={${escapeLatex(keywords)}},`,
     "  pdfcreator={LaTeX with Tectonic},",
     "  pdfdisplaydoctitle=true",
@@ -68,11 +68,23 @@ function generateHeader(): string {
 
 function generateProfile(): string {
   return [
-    "\\section{Research Profile}",
+    "\\section{AI Research Profile}",
     `\\noindent ${escapeLatex(profile.cv.summary)}\\par`,
     "\\vspace{0.35em}",
     `\\noindent\\textbf{Research interests:} ${profile.researchInterests.map(escapeLatex).join(" · ")}`,
   ].join("\n");
+}
+
+function generateExpertise(): string {
+  const lines = ["\\section{Technical Expertise}"];
+
+  for (const expertise of profile.expertise) {
+    lines.push(
+      `\\cvitem{${escapeLatex(expertise.area)}}{${expertise.topics.map(escapeLatex).join(" · ")}}{${escapeLatex(expertise.description)}}`
+    );
+  }
+
+  return lines.join("\n");
 }
 
 function generateEducation(): string {
@@ -134,7 +146,7 @@ function generatePapers(): string {
 }
 
 function generateProjects(): string {
-  const lines = ["\\section{Selected Projects}"];
+  const lines = ["\\section{Selected AI Research \\& Engineering}"];
   const projectGroups = [
     {
       title: "Research Projects",
@@ -179,8 +191,12 @@ function generateTeaching(): string {
   const lines = ["\\section{Teaching}"];
 
   for (const course of descendingByYear(courses)) {
+    const topics = course.topics?.map(escapeLatex).join(" · ") ?? "";
+    const topicText = topics
+      ? ` {\\small\\color{light}Topics: ${topics}}`
+      : "";
     lines.push(
-      `\\cvitem{${escapeLatex(course.title)} {\\normalfont(${escapeLatex(course.code)})}}{${escapeLatex(course.semester)} ${course.year}}{${escapeLatex(course.role)} — ${escapeLatex(course.description)}}`
+      `\\noindent{\\small\\textbf{${escapeLatex(course.title)}} (${escapeLatex(course.code)}) — ${escapeLatex(course.role)}, ${escapeLatex(course.semester)} ${course.year}.${topicText}}\\par\\vspace{0.15em}`
     );
   }
 
@@ -188,30 +204,25 @@ function generateTeaching(): string {
 }
 
 function generateActivities(): string {
-  const lines = ["\\section{Academic Service \\& Activities}"];
+  const lines = ["\\section{Academic Service \\& Presentations}"];
 
-  if (reviewingActivities.length > 0) {
-    lines.push("\\subsection{Reviewing}");
+  if (reviewingActivities.length > 0 || conferenceParticipations.length > 0) {
     lines.push("\\begin{itemize}");
     for (const review of reviewingActivities) {
       lines.push(
-        `\\item ${escapeLatex(review.role)}, \\textit{${escapeLatex(review.venue)}} (${review.years.join(", ")})`
+        `\\item \\textbf{${escapeLatex(review.role)}} — \\textit{${escapeLatex(review.venue)}} (${review.years.join(", ")})`
       );
     }
-    lines.push("\\end{itemize}");
-  }
-
-  if (conferenceParticipations.length > 0) {
-    lines.push("\\subsection{Conference Participation}");
     for (const conference of descendingByYear(conferenceParticipations)) {
       const details = [conference.role, conference.location]
         .filter(Boolean)
         .map((detail) => escapeLatex(detail))
-        .join(" — ");
+        .join(", ");
       lines.push(
-        `\\cvitem{${escapeLatex(conference.name)}}{${conference.year}}{${details}}`
+        `\\item \\textbf{${escapeLatex(conference.shortName ?? conference.name)}} — ${details} (${conference.year})`
       );
     }
+    lines.push("\\end{itemize}");
   }
 
   if (otherActivities.length > 0) {
@@ -232,6 +243,7 @@ const sections: Record<string, () => string> = {
   metadata: generateMetadata,
   header: generateHeader,
   profile: generateProfile,
+  expertise: generateExpertise,
   education: generateEducation,
   papers: generatePapers,
   projects: generateProjects,

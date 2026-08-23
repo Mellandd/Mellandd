@@ -49,8 +49,8 @@ const Papers = () => {
             <span className="text-primary">/&gt;</span>
           </h1>
           <p className="text-muted-foreground max-w-2xl">
-            A collection of my research papers spanning machine learning theory,
-            geometric deep learning, and automated reasoning.
+            Research on language models, graph neural networks, representation
+            learning, explainability, and robust predictive systems.
           </p>
         </SectionWrapper>
 

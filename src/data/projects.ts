@@ -21,14 +21,14 @@ export interface Project {
 export const projects: Project[] = [
   {
     id: "iarecgnn",
-    title: "IArecGNN: AI Module for Automatic Recommendations and Inductive Learning with Graph Neural Networks",
+    title: "IArecGNN: Inductive Graph Learning for Recommendations",
     description:
-      "Development of an AI module for automatic recommendations and inductive learning using graph neural networks.",
+      "An industry-facing AI module for automatic recommendations and inductive learning with graph neural networks.",
     longDescription:
-      "Development of an AI module for automatic recommendations and inductive learning using graph neural networks. The project is conducted under an Article 60 contract of Spain's Organic Law on the University System (LOSU), supporting research and knowledge transfer between the university and a private-sector partner.",
+      "Developing a graph neural network module for automatic recommendations and inductive learning, designed to generalize to previously unseen entities. The work is delivered through a university–industry research contract with a private-sector partner.",
     technologies: [
-      "Artificial Intelligence",
       "Graph Neural Networks",
+      "Inductive Learning",
       "Recommender Systems",
     ],
     category: "research",
@@ -38,10 +38,12 @@ export const projects: Project[] = [
   },
   {
     id: "calm",
-    title: "CALM-COVID19: Concept-drift Aware Learning models. Applications to COVID-19 like pandemic scenarios",
-    description: "Concept Drift Sensitive Machine Learning.",
-    longDescription: "The main objective of this project is to design techniques that enable the detection and characterisation of concept drift in multimodal scenarios based on the nature of the data, focusing on health scenarios that can degenerate into pandemic situations. In this way, we will develop predictive models that are capable of maintaining consistent performance throughout the evolution of the underlying/latent process, which is therefore unknown to us. We understand the evolution of this process as something that can lead to notable changes, i.e., the appearance of ‘concept drift’. We want to detect this drift and react to it in the best possible way.",
-    technologies: ["Python", "R"],
+    title: "CALM: Concept-Drift-Aware Machine Learning",
+    description:
+      "Reliable predictive models that detect and adapt to changing data distributions.",
+    longDescription:
+      "Developing multimodal machine learning methods to detect, characterize, and respond to concept drift so predictive performance remains stable as underlying data-generating processes change. The methods are evaluated in evolving public-health scenarios.",
+    technologies: ["Concept Drift", "Multimodal Learning", "Python", "R"],
     category: "research",
     links: {
       github: "https://www.um.es/web/aike/calm",
@@ -50,14 +52,16 @@ export const projects: Project[] = [
     partners: ["University of Murcia", "Virgen de la Arrixaca Hospital"],
     funding: "Spanish Ministry of Science (PID2020-117751RB)",
     role: "Researcher",
-    duration: "2023 -- 2026",
+    duration: "2023–2026",
   },
   {
     id: "go3-project",
-    title: "go3",
-    description: "GO3: Gene Ontology Semantic Similarity",
-    longDescription: "GO3 is a high-performance GO semantic similarity library built on a Rust core exposed through a Python API (via PyO3). It provides 8 term-level similarity methods, 5 groupwise strategies, and parallelized batch operations, all accessible from a simple Python interface.",
-    technologies: ["Python", "Rust"],
+    title: "GO3: High-Performance Semantic Similarity",
+    description:
+      "A high-performance semantic-similarity engine with a Rust core and Python API.",
+    longDescription:
+      "Designed and built a parallel semantic-similarity library with a memory-safe Rust core exposed through Python. It provides 8 term-level methods and 5 groupwise strategies, reaching up to 5× faster loading, 25× lower memory use, and orders-of-magnitude faster gene comparisons than the established baseline.",
+    technologies: ["Python", "Rust", "Parallel Computing", "Benchmarking"],
     category: "software",
     links: {
       github: "https://github.com/Mellandd/GO3",

@@ -15,6 +15,12 @@ interface SocialLinks {
   twitter?: string;
 }
 
+interface ExpertiseArea {
+  area: string;
+  topics: string[];
+  description: string;
+}
+
 interface Profile {
   name: string;
   publicationNames: string[];
@@ -28,6 +34,7 @@ interface Profile {
   };
   bio: string;
   researchInterests: string[];
+  expertise: ExpertiseArea[];
   education: Education[];
   social: SocialLinks;
   cv: {
@@ -44,45 +51,74 @@ export const profile: Profile = {
     "Jose L. Mellina-Andreu",
   ],
   initials: "JL",
-  title: "PhD Researcher in AI",
-  tagline: "Exploring the intersection of Deep Learning, Mathematics and Biology.",
+  title: "AI Researcher · Deep Learning, LLMs & GNNs",
+  tagline:
+    "Building interpretable learning systems across language, graphs, and structured knowledge.",
   affiliation: {
     department: "Department of Computer Science",
-    university: "Murcia University",
+    university: "University of Murcia",
     lab: "Bio IA Lab",
   },
-  bio: `I'm a PhD candidate researching the applications of graph neural networks and large language models in the field of bioinformatics, with an emphasis on creating interpretable models of human genomics.
+  bio: `I'm an AI researcher and PhD candidate developing deep learning methods for language, graphs, and structured knowledge. My work spans large language models, graph neural networks, representation learning, knowledge graphs, and explainable AI.
 
-My latest work focuses on the use of graph neural networks for the encoding and completion of biomedical ontologies, such as the Human Phenotype Ontology (HPO) and the Gene Ontology (GO). In addition, I have researched interpretation techniques on BERT-like encoders, attempting to translate embeddings into specific interpretations in a domain.
+I study how learned representations can be aligned with structured knowledge, made easier to interpret, and deployed reliably under real-world constraints. My research includes contrastive fine-tuning of language models, heterogeneous graph learning, embedding interpretation, link prediction, and concept-drift-aware prediction.
 
-Before starting my PhD, I completed my undergraduate studies in Mathematics and Computer Science, where I developed a passion for the beautiful interplay between abstract mathematics and practical computation.`,
+I validate these methods in demanding scientific and healthcare settings, but the research questions and techniques are designed to transfer across domains. My background in both Mathematics and Computer Science shapes how I connect theoretical ideas, careful experimentation, and practical software.`,
   researchInterests: [
-    "Machine Learning Theory",
     "Deep Learning",
-    "Graph Neural Networks",
     "Large Language Models",
-    "Bioinformatics",
+    "Graph Neural Networks",
+    "Representation Learning",
+    "Knowledge Graphs",
+    "Explainable AI",
+    "Reliable Machine Learning",
+  ],
+  expertise: [
+    {
+      area: "Language Models",
+      topics: ["LLMs", "Fine-tuning", "Contrastive Learning", "Embeddings"],
+      description:
+        "Adapting and interpreting language-model representations with structured supervision.",
+    },
+    {
+      area: "Graph Learning",
+      topics: ["GNNs", "Heterogeneous Graphs", "Knowledge Graphs", "Link Prediction"],
+      description:
+        "Learning over relational data for prediction, recommendation, and knowledge completion.",
+    },
+    {
+      area: "Interpretable AI",
+      topics: ["Explainability", "Integrated Gradients", "Embedding Analysis"],
+      description:
+        "Connecting model outputs and latent representations to concepts people can inspect.",
+    },
+    {
+      area: "Research Engineering",
+      topics: ["Python", "Rust", "R", "Benchmarking"],
+      description:
+        "Turning research ideas into reproducible, efficient software and rigorous evaluations.",
+    },
   ],
   education: [
     {
       degree: "Ph.D. in Computer Science",
-      institution: "Murcia University",
+      institution: "University of Murcia",
       years: "2023 - Present",
-      focus: "Machine Learning Theory",
+      focus: "Artificial Intelligence",
     },
     {
       degree: "M.S. in Big Data Analysis Technologies",
-      institution: "Murcia University",
+      institution: "University of Murcia",
       years: "2022 - 2023",
     },
     {
       degree: "B.S. in Computer Science",
-      institution: "Murcia University",
+      institution: "University of Murcia",
       years: "2017 - 2022",
     },
     {
       degree: "B.S. in Mathematics",
-      institution: "Murcia University",
+      institution: "University of Murcia",
       years: "2017 - 2022",
     },
   ],
@@ -96,8 +132,8 @@ Before starting my PhD, I completed my undergraduate studies in Mathematics and 
   },
   cv: {
     path: "cv.pdf",
-    downloadName: "jose-luis-mellina-academic-cv.pdf",
+    downloadName: "jose-luis-mellina-ai-research-cv.pdf",
     summary:
-      "PhD researcher working on graph neural networks and language models for bioinformatics, with a focus on interpretable representations of human genomics and biomedical ontologies.",
+      "AI researcher and PhD candidate developing deep learning methods for language, graphs, and structured knowledge. Research spans large language models, graph neural networks, representation learning, explainable AI, and reliable machine learning, with experience translating new methods into efficient research software.",
   },
 };
