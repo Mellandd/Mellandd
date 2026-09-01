@@ -16,6 +16,7 @@ export interface Project {
   funding?: string;
   role?: string;
   duration?: string;
+  cvHighlights?: string[];
 }
 
 export const projects: Project[] = [
@@ -68,5 +69,9 @@ export const projects: Project[] = [
       paper: "#go3",
     },
     featured: true,
+    cvHighlights: [
+      "Engineered a Rust core with a Python API using PyO3, Rayon parallelism, caching, and pre-built wheels for a simple pip installation.",
+      "Benchmarked **3.6–12.5× faster initialization** and **2–25× faster gene-level similarity** than established Python/R alternatives, while validating numerical agreement.",
+    ],
   },
 ];

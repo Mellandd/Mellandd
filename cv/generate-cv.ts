@@ -2,14 +2,8 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { profile } from "../src/data/profile.ts";
-import { papers } from "../src/data/papers.ts";
+import { papers, type Paper } from "../src/data/papers.ts";
 import { projects } from "../src/data/projects.ts";
-import { courses } from "../src/data/teaching.ts";
-import {
-  reviewingActivities,
-  conferenceParticipations,
-  otherActivities,
-} from "../src/data/activities.ts";
 
 const currentDirectory = dirname(fileURLToPath(import.meta.url));
 const outputDirectory = join(currentDirectory, "sections");
@@ -23,28 +17,61 @@ function escapeLatex(value: string): string {
     .replace(/\^/g, "\\textasciicircum{}")
     .replace(/—/g, "---")
     .replace(/–/g, "--")
-    .replace(/·/g, "\\textbar{}")
+    .replace(/·/g, "\\textbullet{}")
     .replace(/×/g, "\\ensuremath{\\times}");
+}
+
+function richText(value: string): string {
+  return value
+    .split(/(\*\*.*?\*\*)/g)
+    .filter(Boolean)
+    .map((fragment) =>
+      fragment.startsWith("**") && fragment.endsWith("**")
+        ? `\\textbf{${escapeLatex(fragment.slice(2, -2))}}`
+        : escapeLatex(fragment)
+    )
+    .join("");
 }
 
 function link(url: string, label: string): string {
   return `\\href{${escapeLatex(url)}}{${escapeLatex(label)}}`;
 }
 
-function descendingByYear<T extends { year: number }>(items: T[]): T[] {
-  return [...items].sort((left, right) => right.year - left.year);
+function itemize(items: string[]): string {
+  return [
+    "\\begin{itemize}",
+    ...items.map((item) => `  \\item ${richText(item)}`),
+    "\\end{itemize}",
+  ].join("\n");
+}
+
+function paperLinks(paper: Paper): string {
+  const links: string[] = [];
+  if (paper.links.arxiv && paper.links.arxiv !== "#") {
+    links.push(link(paper.links.arxiv, "Paper"));
+  } else if (paper.links.pdf) {
+    links.push(link(paper.links.pdf, "Paper"));
+  }
+  if (paper.links.code && paper.links.code !== "#") {
+    links.push(link(paper.links.code, "Code"));
+  }
+  return links.map((entry) => `[${entry}]`).join(" ");
+}
+
+function requiredPaper(id: string): Paper {
+  const paper = papers.find((candidate) => candidate.id === id);
+  if (!paper) throw new Error(`Missing paper data for ${id}`);
+  return paper;
 }
 
 function generateMetadata(): string {
-  const keywords = profile.researchInterests.join(", ");
-
   return [
     `\\newcommand{\\cvname}{${escapeLatex(profile.name)}}`,
     "\\hypersetup{",
-    `  pdftitle={Curriculum Vitae - ${escapeLatex(profile.name)}},`,
+    `  pdftitle={Industry CV - ${escapeLatex(profile.name)}},`,
     `  pdfauthor={${escapeLatex(profile.name)}},`,
-    `  pdfsubject={AI research curriculum vitae for ${escapeLatex(profile.name)}},`,
-    `  pdfkeywords={${escapeLatex(keywords)}},`,
+    "  pdfsubject={Machine learning research engineering curriculum vitae},",
+    `  pdfkeywords={${escapeLatex(profile.skills.flatMap((group) => group.skills).join(", "))}},`,
     "  pdfcreator={LaTeX with Tectonic},",
     "  pdfdisplaydoctitle=true",
     "}",
@@ -53,206 +80,131 @@ function generateMetadata(): string {
 
 function generateHeader(): string {
   const contacts = [
+    "Murcia, Spain",
     link(`mailto:${profile.social.email}`, profile.social.email),
-    link(profile.social.website, "Website"),
+    link(profile.social.website, "Portfolio"),
     link(profile.social.github, "GitHub"),
-    link(profile.social.scholar, "Google Scholar"),
     link(profile.social.linkedin, "LinkedIn"),
   ];
 
   return [
-    "\\begin{center}",
-    `{\\Huge\\bfseries\\color{accent} ${escapeLatex(profile.name)}}\\\\[5pt]`,
-    `{\\large ${escapeLatex(profile.title)} --- ${escapeLatex(profile.affiliation.university)}}\\\\[7pt]`,
-    `{\\small ${contacts.join("\\quad\\textcolor{rule}{|}\\quad ")}}`,
-    "\\end{center}",
-    "\\vspace{0.1em}",
-  ].join("\n");
-}
-
-function generateProfile(): string {
-  return [
-    "\\section{AI Research Profile}",
-    `\\noindent ${escapeLatex(profile.cv.summary)}\\par`,
+    "\\noindent{\\color{accent}\\rule{4pt}{2.05cm}}\\hspace{0.7em}%",
+    "\\begin{minipage}[b]{\\dimexpr\\linewidth-4pt-0.7em\\relax}",
+    `{\\fontsize{27}{29}\\selectfont\\bfseries\\color{ink} ${escapeLatex(profile.name)}}\\\\[3pt]`,
+    `{\\large\\bfseries\\color{accent} ${escapeLatex(profile.cv.industryTitle)}}\\\\[8pt]`,
+    `\\contactbar{${contacts.join("\\quad\\textcolor{rule}{|}\\quad ")}}`,
+    "\\end{minipage}",
     "\\vspace{0.35em}",
-    `\\noindent\\textbf{Research interests:} ${profile.researchInterests.map(escapeLatex).join(" \\textbar{} ")}`,
   ].join("\n");
 }
 
-function generateExpertise(): string {
-  const lines = ["\\section{Technical Expertise}"];
+function generateSummary(): string {
+  return `\\profilebox{${escapeLatex(profile.cv.summary)}}`;
+}
 
-  for (const expertise of profile.expertise) {
+function generateSkills(): string {
+  return [
+    "\\section{Core Skills}",
+    ...profile.skills.map(
+      (group) =>
+        `\\cvskill{${escapeLatex(group.area)}}{${group.skills.map(escapeLatex).join(" \\textbullet{} ")}}`
+    ),
+  ].join("\n");
+}
+
+function generateExperience(): string {
+  const lines = ["\\section{Experience}"];
+  for (const experience of profile.experience) {
+    const organization = experience.url
+      ? link(experience.url, experience.organization)
+      : escapeLatex(experience.organization);
     lines.push(
-      `\\cvitem{${escapeLatex(expertise.area)}}{${expertise.topics.map(escapeLatex).join(" \\textbar{} ")}}{${escapeLatex(expertise.description)}}`
+      `\\experienceentry{${escapeLatex(experience.role)}}{${escapeLatex(experience.years)}}{${organization}}{${escapeLatex(experience.location)}}{%
+${itemize(experience.highlights)}
+}`
     );
   }
+  return lines.join("\n");
+}
 
+function generateImpact(): string {
+  const go3 = projects.find((project) => project.id === "go3-project");
+  if (!go3?.cvHighlights) throw new Error("Missing GO3 CV highlights");
+
+  const go3Paper = requiredPaper("go3");
+  const selectedPapers = [
+    requiredPaper("structure-aware-biomedical-embeddings"),
+    requiredPaper("phenolinker"),
+  ];
+
+  const lines = ["\\section{Selected Technical Impact}"];
+  lines.push(
+    `\\impactentry{${escapeLatex(go3.title)}}{${go3.technologies.map(escapeLatex).join(" \\textbullet{} ")}}{${paperLinks(go3Paper)}}{%
+${itemize(go3.cvHighlights)}
+}`
+  );
+  lines.push("\\newpage", "\\section{Selected Technical Impact}");
+
+  for (const paper of selectedPapers) {
+    if (!paper.cvHighlights) throw new Error(`Missing CV highlights for ${paper.id}`);
+    lines.push(
+      `\\impactentry{${escapeLatex(paper.title)}}{${paper.tags.map(escapeLatex).join(" \\textbullet{} ")}}{${paperLinks(paper)}}{%
+${itemize(paper.cvHighlights)}
+}`
+    );
+  }
   return lines.join("\n");
 }
 
 function generateEducation(): string {
   const lines = ["\\section{Education}"];
-
   for (const education of profile.education) {
-    const honors = education.honors
-      ? ` --- \\textit{${escapeLatex(education.honors)}}`
-      : "";
-    const focus = education.focus ? escapeLatex(education.focus) : "";
-    const subtitle = [escapeLatex(education.institution), focus]
-      .filter(Boolean)
-      .join(" --- ");
-
+    const details = [education.institution, education.focus].filter(Boolean).join(", ");
     lines.push(
-      `\\cventry{${escapeLatex(education.degree)}${honors}}{${escapeLatex(education.years)}}{${subtitle}}{}`
+      `\\educationentry{${escapeLatex(education.degree)}}{${escapeLatex(education.years)}}{${escapeLatex(details)}}`
     );
   }
-
+  lines.push(
+    "\\noindent{\\small\\color{muted}M.Sc. thesis: 10/10; Computer Science and Mathematics capstones: 9.8/10 and 9.7/10, all awarded Highest Honours.}"
+  );
   return lines.join("\n");
 }
 
-function formatAuthors(authors: string[]): string {
-  return authors
-    .map((author) => {
-      const escapedAuthor = escapeLatex(author);
-      return profile.publicationNames.includes(author)
-        ? `\\textbf{${escapedAuthor}}`
-        : escapedAuthor;
-    })
-    .join(", ");
+function generatePublications(): string {
+  const selected = [
+    "structure-aware-biomedical-embeddings",
+    "go3",
+    "phenolinker",
+    "deibo",
+  ].map(requiredPaper);
+
+  return [
+    "\\section{Selected Publications}",
+    ...selected.map(
+      (paper) =>
+        `\\publicationentry{${escapeLatex(paper.title)}}{${escapeLatex(paper.venue.trim())}, ${paper.year}}{${paperLinks(paper)}}`
+    ),
+    `\\noindent{\\footnotesize\\color{muted}Four first-author works selected from six peer-reviewed publications. Full list on ${link(profile.social.scholar, "Google Scholar")}.}`,
+  ].join("\n");
 }
 
-function generatePapers(): string {
-  const lines = ["\\section{Publications}"];
-
-  for (const paper of descendingByYear(papers)) {
-    const links: string[] = [];
-    if (paper.links.arxiv && paper.links.arxiv !== "#") {
-      links.push(link(paper.links.arxiv, "paper"));
-    } else if (paper.links.pdf) {
-      links.push(link(paper.links.pdf, "paper"));
-    }
-    if (paper.links.code && paper.links.code !== "#") {
-      links.push(link(paper.links.code, "code"));
-    }
-
-    const linkText =
-      links.length > 0
-        ? `\\ {\\footnotesize\\color{accent}[${links.join("] [")}]}`
-        : "";
-
-    lines.push(
-      `\\cvpub{${formatAuthors(paper.authors)}}{${escapeLatex(paper.title)}}{${escapeLatex(paper.venue.trim())}}{${paper.year}}{${linkText}}`
-    );
-  }
-
-  return lines.join("\n");
-}
-
-function generateProjects(): string {
-  const lines = ["\\section{Selected AI Research \\& Engineering}"];
-  const projectGroups = [
-    {
-      title: "Research Projects",
-      items: projects.filter((project) => project.category === "research"),
-    },
-    {
-      title: "Software & Tools",
-      items: projects.filter((project) => project.category === "software"),
-    },
-  ];
-
-  for (const group of projectGroups) {
-    if (group.items.length === 0) continue;
-
-    lines.push(`\\subsection{${escapeLatex(group.title)}}`);
-    for (const project of group.items) {
-      const technologies = project.technologies.map(escapeLatex).join(", ");
-      const projectLink = project.links.github
-        ? `\\ {\\footnotesize\\color{accent}[${link(project.links.github, "GitHub")}]}`
-        : "";
-      const metadata: string[] = [];
-      if (project.role) metadata.push(escapeLatex(project.role));
-      if (project.duration) metadata.push(escapeLatex(project.duration));
-      if (project.funding) {
-        metadata.push(`Funded by ${escapeLatex(project.funding)}`);
-      }
-      const metadataText =
-        metadata.length > 0
-          ? ` {\\footnotesize\\color{light}(${metadata.join("; ")})}`
-          : "";
-
-      lines.push(
-        `\\cvitem{${escapeLatex(project.title)}${projectLink}${metadataText}}{${technologies}}{${escapeLatex(project.description)}}`
-      );
-    }
-  }
-
-  return lines.join("\n");
-}
-
-function generateTeaching(): string {
-  const lines = ["\\section{Teaching}"];
-
-  for (const course of descendingByYear(courses)) {
-    const topics = course.topics?.map(escapeLatex).join(" \\textbar{} ") ?? "";
-    const topicText = topics
-      ? ` {\\small\\color{light}Topics: ${topics}}`
-      : "";
-    lines.push(
-      `\\noindent{\\small\\textbf{${escapeLatex(course.title)}} (${escapeLatex(course.code)}) --- ${escapeLatex(course.role)}, ${escapeLatex(course.semester)} ${course.year}.${topicText}}\\par\\vspace{0.15em}`
-    );
-  }
-
-  return lines.join("\n");
-}
-
-function generateActivities(): string {
-  const lines = ["\\section{Academic Service \\& Presentations}"];
-
-  if (reviewingActivities.length > 0 || conferenceParticipations.length > 0) {
-    lines.push("\\begin{itemize}");
-    for (const review of reviewingActivities) {
-      lines.push(
-        `\\item \\textbf{${escapeLatex(review.role)}} --- \\textit{${escapeLatex(review.venue)}} (${review.years.join(", ")})`
-      );
-    }
-    for (const conference of descendingByYear(conferenceParticipations)) {
-      const details = [conference.role, conference.location]
-        .filter(Boolean)
-        .map((detail) => escapeLatex(detail))
-        .join(", ");
-      lines.push(
-        `\\item \\textbf{${escapeLatex(conference.shortName ?? conference.name)}} --- ${details} (${conference.year})`
-      );
-    }
-    lines.push("\\end{itemize}");
-  }
-
-  if (otherActivities.length > 0) {
-    lines.push("\\subsection{Memberships \\& Service}");
-    lines.push("\\begin{itemize}");
-    for (const activity of otherActivities) {
-      lines.push(
-        `\\item ${escapeLatex(activity.title)}, ${escapeLatex(activity.organization)} (${escapeLatex(activity.years)})`
-      );
-    }
-    lines.push("\\end{itemize}");
-  }
-
-  return lines.join("\n");
+function generateAdditional(): string {
+  const languages = profile.languages
+    .map((entry) => `\\textbf{${escapeLatex(entry.language)}}: ${escapeLatex(entry.level)}`)
+    .join("\\qquad");
+  return ["\\section{Languages}", `\\noindent ${languages}`].join("\n");
 }
 
 const sections: Record<string, () => string> = {
   metadata: generateMetadata,
   header: generateHeader,
-  profile: generateProfile,
-  expertise: generateExpertise,
+  profile: generateSummary,
+  skills: generateSkills,
+  experience: generateExperience,
+  impact: generateImpact,
   education: generateEducation,
-  papers: generatePapers,
-  projects: generateProjects,
-  teaching: generateTeaching,
-  activities: generateActivities,
+  papers: generatePublications,
+  additional: generateAdditional,
 };
 
 for (const [name, generate] of Object.entries(sections)) {
@@ -261,4 +213,4 @@ for (const [name, generate] of Object.entries(sections)) {
   console.log(`wrote ${path}`);
 }
 
-console.log("CV sections generated.");
+console.log("Industry CV sections generated.");

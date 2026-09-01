@@ -16,6 +16,7 @@ export interface Paper {
     project?: string;
   };
   featured?: boolean;
+  cvHighlights?: string[];
 }
 
 export const papers: Paper[] = [
@@ -23,15 +24,19 @@ export const papers: Paper[] = [
     id: "structure-aware-biomedical-embeddings",
     title: "Structure-Aware Contrastive Learning for Biomedical Embeddings: Bridging the Gap Between HPO and Clinical Literature",
     authors: ["Jose Luis Mellina Andreu", "Alejandro Cisterna García", "Juan Botía"],
-    venue: "Accepted at IJCAI-ECAI 2026 — Special Track on AI and Health",
+    venue: "Accepted at IJCAI-ECAI 2026, Special Track on AI and Health",
     year: 2026,
     abstract: "Large Language Models (LLMs) are extensively used at biomedical text processing but often fail to capture the complex, functional relationships encoded in expert knowledge graphs like the Human Phenotype Ontology (HPO). This “semantic gap” limits their utility in precision medicine tasks such as rare disease diagnosis, where distinguishing overlapping clinical presentations requires understanding underlying pathophysiological connections rather than just surface-level textual similarity. In this work, we propose a Neuro-Symbolic Alignment Framework that bridges this separation by integrating literature-mined specialized phenotypical descriptions with the ontological structure used as reference. Specifically, we augment phenotype representations with automatically selected text fragments from massive corpus of descriptions mined from scientific literature (PubMed), overcoming the typical data scarcity of standard ontology definitions. We define a new embedding adaptation procedure whose fine-tuning approach is guided by a novel “Disease-Overlap” similarity measure, which prioritizes clinical co-occurrence of phenotypes over taxonomic distance, and optimizes the embedding space using AnglE Loss to mitigate gradient saturation. Extensive evaluations show that our approach significantly outperforms state-of-the-art baselines, including SapBERT, on both intrinsic semantic correlation and practical downstream tasks, including synthetic patient disease ranking and solving real cases stored in Phenopacket, where our model achieves x4 top-1 accuracy than the previous best model.",
     tags: ["Large Language Models", "Contrastive Learning", "Knowledge Graphs", "Representation Learning"],
     type: "conference",
     links: {
-      arxiv: "https://2026.ijcai.org/accepted-papers/",
+      arxiv: "https://ijcai-preprints.s3.us-west-1.amazonaws.com/2026/AI4H271.pdf",
     },
     featured: true,
+    cvHighlights: [
+      "Designed a neuro-symbolic alignment pipeline that fine-tunes biomedical language-model embeddings using literature-mined text, ontology structure, and contrastive learning.",
+      "Achieved **4× top-1 disease-ranking accuracy** versus the previous best model on real Phenopacket cases.",
+    ],
   },
   {
     id: "phenolinker",
@@ -48,6 +53,10 @@ export const papers: Paper[] = [
       pdf: "https://pdf.sciencedirectassets.com/271219/1-s2.0-S0933365725X00075/1-s2.0-S0933365725001125/main.pdf?X-Amz-Security-Token=IQoJb3JpZ2luX2VjEJT%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMSJGMEQCIAepQwb5r9wi3t%2FU60U7jLf28Kg8U564Uj3knIQ%2FOxsLAiAvk4lxgr1xc1UAu1Au51KKnLliTioa5NrmkLR%2BIoLMyCqzBQhdEAUaDDA1OTAwMzU0Njg2NSIM6NtlkSt%2FNAGJPXrmKpAFjS56f09fumEmVb%2BKJGFJI%2BoFWK%2BQBm3%2F3c4oWeQTVopGBbpZH3m3znOr%2BmemjJrv7L64rrKFlTU2tHK4MT5G88MEwJtNYv%2FNOXV5ZbfdAW%2FZfQoaL5YV6b6OFV1RLaPdMGEOdrUSNyb9vPYSdygMVE8zdn7aiYId4LTl7eJhZ3WNTMGY%2B%2FJ8kUm%2F35vvJ3pLw1wRBqkthZCpu3DfN5t9jeFWYmO%2Bxrd7dMWEehb65UCbve6oeCik04OL3N7krCWjNnET%2FPgv8Y7YZuFPIb3nAb%2Br2zQ4NKAvJlyQiR5CV2YalOtjtgtE0Ebb2x09iC7MX2QuY5IID0iuVbdsKS44v8z3goFbibOkPei8lbcZeXJoWAWv1TNq8zpHTL2SPxBDsPGm%2FCnjApZ598c3fRyPI6gQmXJBDItvqN7AugdlaQHwLr6npPez9TDEwyOcYZ3RzDXsnwL68Fsct9MKwiP8pMLZR3VXVZxkPwpgYL9vQmera%2F9ybjN46umHoaf9aSaWpHKTacpRknlSCBmLhnL3DALkGyuz%2BNKAwW3KKW55qg2GOiSSdILfsA18LWy4gFJwgpNarBBS1ShP8wf6hl9gNfqCqiVKUVboIxtaaCp%2BWGHuVKFAIgLcORVEuc9hH9QxgZ8nsau26g06cASvGJvxK1pbG3wtbOXN4sxrimR1xL9BSyRx%2FfkDOBFHwMCtKvM4qytc4iClggnEgA0ybTOIR3Vwl1GD06ZlLWHHI2YJ%2BV8S1jzWvW8Tw1uOAOvzfWrGrNiedCRU1%2BtobwF%2BPVKQDz1gsABVI%2FKFtYbDfs1kAsSkbDlcyvjHs7qmYa1V3Gdap%2FuJO1000qA4SL6vu3SFzKEzDzqri9RR24scZUU6Xtowl9SczAY6sgH5ZuZtIPeHodMVNfq7XzxPNUt58XkDDdds10krAmetpZUvoB0sAO1ktdBT8whV4Inaxz1i9jIPFTUGLUGpqCmkGBw5FOlF7FZ4A8k%2BqmD7easrfIFb4j%2BUDwB1lp8NrntEIV9J3TkMD6MsE85BqlPmWOgpRKcbHpRjPwwkqiMQsqydNyJaRidgxZbVk82GTsOz568p0atdfTsMMyuiNMgwgCX%2F8VGgvcDFQUhosXN%2FP9Dh&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20260207T122835Z&X-Amz-SignedHeaders=host&X-Amz-Expires=300&X-Amz-Credential=ASIAQ3PHCVTYSSVH4HFS%2F20260207%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=77265b709c3c0ecce729f7510a04ecdb3324b92c2b9a0add9d7952a52071692a&hash=2e8a7b3ee660f516c2839fcb95966b6fe2afb60bf49a8a33d6177d3e7e3199e6&host=68042c943591013ac2b2430a89b270f6af2c76d8dfd086a07176afe7c76c2c61&pii=S0933365725001125&tid=spdf-b809a3f4-515e-478d-861d-d13982d63d05&sid=94a858c25be8674b2c7ab654049214eb1bcbgxrqb&type=client&tsoh=d3d3LnNjaWVuY2VkaXJlY3QuY29t&rh=d3d3LnNjaWVuY2VkaXJlY3QuY29t&ua=03155d020257045d505c&rr=9ca2e353dd6604ae&cc=es",
     },
     featured: true,
+    cvHighlights: [
+      "Built an explainable heterogeneous GraphSAGE link-prediction system in PyTorch Geometric, combining BioBERT node features with Integrated Gradients.",
+      "**Outperformed existing models** in retrospective and temporal validation; predictions contributed to real-world genetic diagnoses.",
+    ],
   },
   {
     id: "deibo",
